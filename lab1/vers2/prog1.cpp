@@ -138,6 +138,7 @@ namespace prog1 {
 
         return sum;
     }
+
     void outputVector(float * vec, int size){
         float *ptr= vec;
         int N = size;
@@ -147,6 +148,7 @@ namespace prog1 {
         }
         printf("\n");
     }
+
     ///
 
    float sumOfRow(MatrixElement *elem) {

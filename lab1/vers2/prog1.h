@@ -27,23 +27,16 @@ namespace prog1 {
     float formVectorItem(struct MatrixElement *row1, struct MatrixElement *row0);
     void outputVector(float *, int size);
     void deleteVector(float *);
+
     void addElement(Matrix *matrix, int x, int y, float value);
     Matrix *input();
     void output(const char *msg, Matrix *matrix);
-
-    int findMinSumRow(Matrix *matrix);
-    int findMaxSumRow(Matrix *matrix);
-
+    int Choice(int, int);
+    Matrix *erase(Matrix *matrix);
 
     int getInt(int *a);
     int getNaturalInt(int *a);
     int getNaturalInt(int *a, const int *max);
     int getFloat(float *a);
-
-    MatrixElement *Sort(MatrixElement *head, int (*f)(int, int), int (*h)(int, int));
-
-    int Choice(int, int);
-    Matrix *erase(Matrix *matrix);
-
 }
 
