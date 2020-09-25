@@ -24,12 +24,18 @@ namespace prog1 {
             if (choice) {
                 int x, y;
                 float value;
-                std::cout << "Input number of line in range [" << 1 << ";" << lines << "]" << std::endl;
+                std::cout << "Input x[" << 1 << ";" << lines << "] ";
+                std::cout << "y[" << 1 << ";" << columns << "] ";
+                std::cout << "value -->";
+                getNaturalInt(&x, &lines);
+                getNaturalInt(&y, &columns);
+                getFloat(&value);
+                /*std::cout << "Input number of line in range [" << 1 << ";" << lines << "]" << std::endl;
                 getNaturalInt(&x, &lines);
                 std::cout << "Input number of column in range [" << 1 << ";" << columns << "]" << std::endl;
                 getNaturalInt(&y, &columns);
                 std::cout << "Input value of element -->";
-                getFloat(&value);
+                getFloat(&value);*/
                 x--;
                 y--;
                 addElement(matrix, x, y, value);//увеличиваем количество ненулевых тут
@@ -42,9 +48,7 @@ namespace prog1 {
     }
 
     void addElement(Matrix *matrix, int x, int y, float value) {
-        /* случаи: создаем новую строку-значит,надо создать новый список
-         * добавляем новый элемент:находим нужный элемент массива, а там вставка в список.
-         */
+
         auto *elem = new MatrixElement(x,y,value,nullptr);//выделяем память под новый элемент списка
 
         //первый элемент в строке матрицы или же [y] вставляемого элемента меньше [y] первого элемента
@@ -53,10 +57,9 @@ namespace prog1 {
             matrix->rows[x] = elem;
             return;
         }
-        //ищем нужную позицию, при этом может оказаться , что нужная позиция не занимает
-        // промежуточное место в списке, двигать ничего не нужно, просто ставим после
-        // ячейка уже занята-делаем запрос, менять ли
-        // нужна позиция занимает промежуточное положение в списке-"отодвигаем" хвост списка
+        // ищем нужную позицию, при этом может оказаться, что нужная позиция не занимает промежуточное место в списке, двигать ничего не нужно, просто ставим после
+        // если ячейка уже занята - спрашиваем, менять ли
+        // нужная позиция занимает промежуточное положение в списке - "отодвигаем" хвост списка
         if (matrix->rows[x] != nullptr && matrix->rows[x]->y == elem->y) {//делаем замену
             if (Choice(x, y)) {
                 matrix->rows[x]->value = value;

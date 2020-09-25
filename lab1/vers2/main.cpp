@@ -1,7 +1,3 @@
-//
-// Created by mi on 19.09.2020.
-//
-
 #include "prog1.h"
 
 using namespace prog1;
