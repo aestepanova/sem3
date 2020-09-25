@@ -2,6 +2,7 @@
 // Created by mi on 19.09.2020.
 //
 #include <iostream>
+#include <limits>
 
 namespace prog1 {
 
@@ -22,6 +23,25 @@ namespace prog1 {
         struct MatrixElement **rows;//массив, содержащий указатели на первые элементы строк матрицы
     };
 
+    template <class T>
+    int getNum(T &a)
+    {
+        std::cin >> a;
+        if (!std::cin.good())	// обнаружена ошибка ввода или конец файла
+            return -1;
+        return 1;
+    }
+
+    inline int getNatInt(int& n, const int max=std::numeric_limits<int>::max()) {
+        std::cin >> n;
+        if (!std::cin.good())	// обнаружена ошибка ввода или конец файла
+            return -1;
+        if (n>=max) return -2;
+        if (n<=0) return 0;
+        return 1;
+    }
+    // для дабл гетнам, для натурального инта дполнение
+
     float sumOfRow(MatrixElement *elem);
     float * createVector(Matrix* matrix);
     float formVectorItem(struct MatrixElement *row1, struct MatrixElement *row0);
@@ -33,9 +53,12 @@ namespace prog1 {
     int Choice(int, int);
     Matrix *erase(Matrix *matrix);
 
-    int getInt(int *a);
+   /* int getInt(int *a);
     int getNaturalInt(int *a);
     int getNaturalInt(int *a, const int *max);
     int getFloat(float *a);
+    int getNut(int& a, const char* msg);
+    double getEl(double& a);
+*/
 }
 

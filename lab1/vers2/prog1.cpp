@@ -4,11 +4,29 @@
 namespace prog1 {
 
     Matrix *input() {
-        int lines, columns;
-        std::cout << "Enter number of rows -->";
-        getNaturalInt(&lines);
-        std::cout << "Enter number of columns -->";
-        getNaturalInt(&columns);
+        int lines, columns, er;
+        const char *pr = ""; // будущее сообщение об ошибке
+        //ввод кол-ва строк
+        do{
+            std::cout << pr << std::endl;
+            std::cout << "Enter natural number of lines: --> ";
+            er = getNatInt(lines);
+            if ((er==-1)||(er==-2)){
+                return nullptr;
+            }
+            // обнаружена ошибка ввода или конец файла
+        } while (er != 1);
+        pr = " ";
+        do{
+            std::cout << pr << std::endl;
+            std::cout << "Enter natural number of columns: --> ";
+            er = getNatInt(columns);
+            if ((er==-1)||(er==-2)){
+                return nullptr;
+            }
+            // обнаружена ошибка ввода или конец файла
+        } while (er != 1);
+
         auto *matrix = new Matrix;
         matrix->N = lines;
         matrix->M = columns;
@@ -20,25 +38,37 @@ namespace prog1 {
         bool check = true;
         while (check) {
             std::cout << "Do you want to input next element (1 - Yes, 0 - No)?" << std::endl;
-            std::cin >> choice;
+            if (getNum(choice)!=1){
+                return nullptr;
+            }
             if (choice) {
                 int x, y;
                 float value;
                 std::cout << "Input x[" << 1 << ";" << lines << "] ";
                 std::cout << "y[" << 1 << ";" << columns << "] ";
                 std::cout << "value -->";
-                getNaturalInt(&x, &lines);
-                getNaturalInt(&y, &columns);
-                getFloat(&value);
-                /*std::cout << "Input number of line in range [" << 1 << ";" << lines << "]" << std::endl;
-                getNaturalInt(&x, &lines);
-                std::cout << "Input number of column in range [" << 1 << ";" << columns << "]" << std::endl;
-                getNaturalInt(&y, &columns);
-                std::cout << "Input value of element -->";
-                getFloat(&value);*/
+
+                if ((getNum(x)!=1)||(x>lines)){
+                    std::cout << "Error!"<<std::endl;
+                    return nullptr;
+                }
+                if ((getNum(y)!=1)||(y>columns)){
+                    std::cout << "Error!"<<std::endl;
+                    return nullptr;
+                }
+
+                do{
+                    std::cout << pr;
+                    pr = "Please input value again!";
+                    er = getNum(value);
+                    // обнаружена ошибка ввода или конец файла
+                } while (er != 1);
+
                 x--;
                 y--;
-                addElement(matrix, x, y, value);//увеличиваем количество ненулевых тут
+                if (value!=0.0f){
+                    addElement(matrix, x, y, value);//увеличиваем количество ненулевых тут
+                }
             }
             if (!choice) {
                 check = false;
@@ -48,7 +78,7 @@ namespace prog1 {
     }
 
     void addElement(Matrix *matrix, int x, int y, float value) {
-
+    //обработка нулевых значений не производится
         auto *elem = new MatrixElement(x,y,value,nullptr);//выделяем память под новый элемент списка
 
         //первый элемент в строке матрицы или же [y] вставляемого элемента меньше [y] первого элемента
@@ -63,9 +93,8 @@ namespace prog1 {
         if (matrix->rows[x] != nullptr && matrix->rows[x]->y == elem->y) {//делаем замену
             if (Choice(x, y)) {
                 matrix->rows[x]->value = value;
-                return;
-            } else
-                return;
+            }
+            return;
         }
 
         MatrixElement *prev, *curr;
@@ -126,7 +155,9 @@ namespace prog1 {
                         }
                     } else if (row1->y < row0->y) {
                         //если индекс текущей меньше номера предыдущей, то продвигаем дальше
-                        sum+=row1->value;
+                        if (row1->value>=0){
+                            sum+=row1->value;
+                        }
                         row1 = row1->next;
                     } else {
                         //если индекс текущей больше номера предыдущей, то двигаем предыдущий список
@@ -136,7 +167,9 @@ namespace prog1 {
                 //если цикл прекратился из-за того, что закончились ненулевые элементы в предыдущей строке, то
                 // добавляем оставшие элементы к имеющейся сумме
                 while (row1) {
-                    sum += row1->value;
+                    if (row1->value>=0){
+                        sum+=row1->value;
+                    }
                     row1 = row1->next;
                 }
             }
@@ -150,9 +183,11 @@ namespace prog1 {
         int N = size;
         printf("\nIt's vector: \n");
         for (int i = 0; i < N; i++) {
-            printf("b[%d]=%5.3f  ", i, *(ptr++));
+            std::cout<< "b[" << i <<"]= " << *(ptr++)<<" ";
+            //printf("b[%d]=%5.3f  ", i, *(ptr++));
         }
-        printf("\n");
+        std::cout<<std::endl;
+        // printf("\n");
     }
 
     ///
@@ -252,7 +287,7 @@ namespace prog1 {
     }
 
     Matrix *erase(Matrix *matrix) {
-        auto *ptr = new MatrixElement;
+        MatrixElement *ptr;
         for (int i = 0; i < matrix->N; i++) {
             ptr = matrix->rows[i];
             while (ptr != nullptr) {
@@ -265,6 +300,31 @@ namespace prog1 {
         delete matrix->rows;
         return nullptr;
     }
+    int getNut(int& a, const char* msg) {
+        const char* pr = "";
+        do {
+            std::cout << pr << std::endl;
+            std::cout << msg;
+            pr = "You are wrong; repeat please!";
+            if (getNum(a) < 0) {
+                return -1;
+            }
+        } while (a < 1);
+    }
+    double getEl(double& a) {
+        const char* pr = "";
+        do {
+            std::cout << pr;
+            std::cout << "Element number->";
+            pr = "You enter 0. Try again.";
+            if (getNum(a) < 0) {
+                return -1;
+            }
+        } while (a == 0);
+        std::cout << std::endl;
+        return 1;
+    }
 }
+
 
 
