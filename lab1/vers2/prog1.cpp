@@ -1,6 +1,3 @@
-//
-// Created by mi on 19.09.2020.
-//
 #include <iostream>
 #include "prog1.h"
 
