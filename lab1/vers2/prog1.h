@@ -26,7 +26,6 @@ namespace prog1 {
     float * createVector(Matrix* matrix);
     float formVectorItem(struct MatrixElement *row1, struct MatrixElement *row0);
     void outputVector(float *, int size);
-    void deleteVector(float *);
 
     void addElement(Matrix *matrix, int x, int y, float value);
     Matrix *input();
