@@ -11,7 +11,7 @@ namespace prog1 {
             std::cout << pr << std::endl;
             std::cout << "Enter natural number of lines: --> ";
             er = getNatInt(lines);
-            if ((er==-1)||(er==-2)){
+            if (er<0){
                 return nullptr;
             }
             // обнаружена ошибка ввода или конец файла
@@ -50,10 +50,12 @@ namespace prog1 {
 
                 if ((getNum(x)!=1)||(x>lines)){
                     std::cout << "Error!"<<std::endl;
+                    erase(matrix);
                     return nullptr;
                 }
                 if ((getNum(y)!=1)||(y>columns)){
                     std::cout << "Error!"<<std::endl;
+                    erase(matrix);
                     return nullptr;
                 }
 
@@ -67,7 +69,14 @@ namespace prog1 {
                 x--;
                 y--;
                 if (value!=0.0f){
-                    addElement(matrix, x, y, value);//увеличиваем количество ненулевых тут
+                    try{
+                        addElement(matrix, x, y, value);//увеличиваем количество ненулевых тут
+                    } catch (std::bad_alloc &ba) {
+                        erase(matrix);
+                        std::cout<<ba.what()<<std::endl;
+                        return nullptr;
+                    }
+
                 }
             }
             if (!choice) {
@@ -226,66 +235,6 @@ namespace prog1 {
         }
     }
 
-    int getFloat(float *a){
-        int n;
-        do {
-            n = scanf("%f", a);
-            if (n < 0)
-                return 0;
-            if (n == 0) {
-                printf("%s\n", "Error! Please, repeat your input: ");
-                scanf("%*[^\n]");
-            }
-        } while (n == 0);
-        return 1;
-    }
-
-    int getInt(int *a) {
-        int n;
-        do {
-            n = scanf("%d", a);
-            if (n < 0)
-                return 0;
-            if (n == 0) {
-                printf("%s\n", "Error! Please, repeat your input: ");
-                scanf("%*[^\n]");
-            }
-        } while (n == 0);
-        return 1;
-    }
-
-    int getNaturalInt(int *a) {
-        int n;
-        do {
-            n = scanf("%d", a);
-            if (n < 0)
-                return 0;
-            if (n == 0 || *a < 0) {
-                printf("%s\n", "Error! Please, repeat your input: ");
-                scanf("%*[^\n]");
-            }
-        } while (n == 0 || *a < 0);
-        return 1;
-    }
-
-    int getNaturalInt(int *a, const int *max) {//ввод с верхней границей
-        int n;
-        do {
-            n = scanf("%d", a);
-            if (n < 0)
-                return 0;
-            if (*a > *max) {
-                printf("%s\n", "Error!You exceeded the limit!Repeat input: ");
-                scanf("%*[^\n]");
-            }
-            if (n == 0 || *a < 0) {
-                printf("%s\n", "Error! Please, repeat your input: ");
-                scanf("%*[^\n]");
-            }
-        } while (n == 0 || *a < 0 || *a > *max);
-        return 1;
-    }
-
     Matrix *erase(Matrix *matrix) {
         MatrixElement *ptr;
         for (int i = 0; i < matrix->N; i++) {
@@ -297,32 +246,8 @@ namespace prog1 {
                 delete trash;
             }
         }
-        delete matrix->rows;
+        delete [] matrix->rows;
         return nullptr;
-    }
-    int getNut(int& a, const char* msg) {
-        const char* pr = "";
-        do {
-            std::cout << pr << std::endl;
-            std::cout << msg;
-            pr = "You are wrong; repeat please!";
-            if (getNum(a) < 0) {
-                return -1;
-            }
-        } while (a < 1);
-    }
-    double getEl(double& a) {
-        const char* pr = "";
-        do {
-            std::cout << pr;
-            std::cout << "Element number->";
-            pr = "You enter 0. Try again.";
-            if (getNum(a) < 0) {
-                return -1;
-            }
-        } while (a == 0);
-        std::cout << std::endl;
-        return 1;
     }
 }
 
