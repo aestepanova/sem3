@@ -8,16 +8,15 @@
 using namespace prog1;
 
 int main() {
-    auto *matrix = new Matrix;
+    Matrix *matrix;
     matrix = input();
     output("Sourced matrix", matrix);
     float* vector;
     vector = createVector(matrix);
 
-    //sort(matrix);
-    output("New matrix", matrix);
+
+    outputVector(vector, (matrix->N));
     erase(matrix);
-    outputVector(vector, &(matrix->N));
    // deleteVector(vector);
     return 0;
 }
