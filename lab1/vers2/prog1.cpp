@@ -120,6 +120,9 @@ namespace prog1 {
                             sum += row1->value;
                             row0 = row0->next;
                             row1 = row1->next;
+                        }else{
+                            row0 = row0->next;
+                            row1 = row1->next;
                         }
                     } else if (row1->y < row0->y) {
                         //если индекс текущей меньше номера предыдущей, то продвигаем дальше
