@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="untitled" targetName="lab1_v2" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1c0a54c2-89a7-463a-a8d6-4d3c2c000410" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/lab1_v2.dir/prog1.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/lab1_v2.dir/prog1.cpp.obj" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1hzhghOQSXRSFXaTLSYVbiltcib" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/lab1/main.cpp" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="Debugger.ObjectiveC" />
+  </component>
+  <component name="RunManager">
+    <configuration name="lab1_v2" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="untitled" TARGET_NAME="lab1_v2" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="untitled" RUN_TARGET_NAME="lab1_v2">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1c0a54c2-89a7-463a-a8d6-4d3c2c000410" name="Default Changelist" comment="" />
+      <created>1601019940875</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601019940875</updated>
+      <workItem from="1601019941968" duration="15907000" />
+      <workItem from="1601332264432" duration="45000" />
+      <workItem from="1601559679048" duration="339000" />
+      <workItem from="1601758622084" duration="163000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1601758710384">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1601758710384" />
+    <state width="1493" height="290" key="GridCell.Tab.0.bottom" timestamp="1601037414509">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601037414509" />
+    <state width="1493" height="290" key="GridCell.Tab.0.center" timestamp="1601037414508">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1601037414508" />
+    <state width="1493" height="290" key="GridCell.Tab.0.left" timestamp="1601037414508">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1601037414508" />
+    <state width="1493" height="290" key="GridCell.Tab.0.right" timestamp="1601037414508">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601037414508" />
+    <state width="1493" height="290" key="GridCell.Tab.1.bottom" timestamp="1601037414509">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601037414509" />
+    <state width="1493" height="290" key="GridCell.Tab.1.center" timestamp="1601037414509">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1601037414509" />
+    <state width="1493" height="290" key="GridCell.Tab.1.left" timestamp="1601037414509">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1601037414509" />
+    <state width="1493" height="290" key="GridCell.Tab.1.right" timestamp="1601037414509">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="290" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1601037414509" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1601559744130">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1601559744130" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/prog1.cpp</url>
+          <line>137</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="matrix-&gt;rows[x]" />
+        <watch expression="matrix-&gt;rows-&gt;*(rows+1)" language="ObjectiveC" />
+        <watch expression="*(b+k)" />
+        <watch expression="b[1]" language="ObjectiveC" />
+        <watch expression="vec[1]" language="ObjectiveC" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
