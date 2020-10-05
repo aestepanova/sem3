@@ -7,7 +7,7 @@
 #IncludeRegexTransform: 
 
 C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Lemniscate.h
-math.h
+cmath
 -
 sstream
 -

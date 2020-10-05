@@ -6,3 +6,15 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Lemniscate.h
+cmath
+-
+sstream
+-
+iostream
+-
+
+C:/Users/user/Documents/GitHub/sem3/lab2/main.cpp
+lab2_9_lib/Lemniscate.h
+C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Lemniscate.h
+

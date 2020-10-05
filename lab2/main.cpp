@@ -35,5 +35,7 @@ int main() {
         if (!functions[rc](Lemniscate))
             break;
     }
+    std::cout<< "Goodbye!";
 
+    return 0;
 }
