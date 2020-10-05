@@ -23,7 +23,8 @@ int (*functions[])(Lemniscate &) = {nullptr, dialog_input,
                                     dialog_getRadiusAngle,
                                     dialog_getRadiusRad,
                                     dialog_getAreaSector,
-                                    dialog_getArea};
+                                    dialog_getArea
+};
 
 
 int main() {
@@ -35,7 +36,7 @@ int main() {
         if (!functions[rc](Lemniscate))
             break;
     }
-    std::cout<< "Goodbye!";
+    std::cout << "Goodbye!" << std::endl;
 
     return 0;
 }

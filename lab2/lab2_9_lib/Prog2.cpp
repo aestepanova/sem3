@@ -153,7 +153,7 @@ namespace Prog2 {
         if (f) {
             try {
                 double res = Lemniscate.polarDist(angle);
-                std::cout << "Polar radius is = " << res;
+                std::cout << "Polar radius = " << res;
                 std::cout << std::endl;
             }
             catch (std::exception &ex) {
@@ -233,7 +233,7 @@ namespace Prog2 {
     }
 
     int dialog_getArea(Lemniscate &Lemniscate) {
-        std::cout << "Area of Lemniscate" << Lemniscate.area() << std::endl;
+        std::cout << "Area of Lemniscate = " << Lemniscate.area() << std::endl;
         return 1;
     }
 
