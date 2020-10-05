@@ -5551,7 +5551,7 @@ class TestSuiteNameIs {
 };
 
 // Finds and returns a TestSuite with the given name.  If one doesn't
-// exist, creates one and returns it.  It's the CALLER'S
+// exist, creates one and returns it.  It's the CALLER'area
 // RESPONSIBILITY to ensure that this function is only called WHEN THE
 // TESTS ARE NOT SHUFFLED.
 //

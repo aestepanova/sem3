@@ -15,17 +15,17 @@ namespace Prog2 {
     Lemniscate& Lemniscate::setFocus(double focus) {
         if (focus == 0)
             throw std::invalid_argument("Invalid focus");
-        f = abs(focus);
+        f = std::abs(focus);
         return *this;
     }
 
-    double Lemniscate::Ssector(double ang) const {
-        if (ang >= 360 || ang < 0)
+    double Lemniscate::sectorArea(double angle) const {
+        if (angle>= 360 || angle< 0)
             throw std::invalid_argument("Invalid angle");
-        if (ang == 0) return 0;
-        if (ang == 180) return f * f;
-        if (ang == 360) return 2 * f * f;
-        double ang1=ang, s=0;
+        if (angle== 0) return 0;
+        if (angle== 180) return f * f;
+        if (angle== 360) return 2 * f * f;
+        double ang1=angle, s=0;
         if (ang1 >= 180) {
             s = s + f * f;
             ang1 = ang1 - 180;
@@ -45,41 +45,55 @@ namespace Prog2 {
         return s;
     }
 
-    double Lemniscate::polardist(double ang) const {
-        if (ang >= 360 || ang < 0)
+    double Lemniscate::polarDist(double angle) const {
+        if (angle >= 360 || angle < 0){
             throw std::invalid_argument("Invalid angle");
-        if ((ang>45 && ang<135)||(ang>225 && ang<315))
+        }
+        if ((angle > 45 && angle < 135) || (angle > 225 && angle < 315)){
             throw std::invalid_argument("Invalid angle");
-        double ang1=ang;
-        if (ang > 135 && ang < 180) ang1 = 180 - ang1;
-        else if (ang > 180 && ang < 225) ang1 = ang - 180;
-        else if(ang<45 || ang>315) ang1 = ang;
-        ang1 = ang1 * PI / 180;
-        return sqrt(2 * f * f * cos(2 * ang1));
+        }
+        double ang=angle;
+        if (angle > 135 && angle < 180){
+            angle= 180 - ang;
+        } else if (angle > 180 && angle < 225) {
+            angle= angle - 180;
+        } else if(angle < 45 || angle > 315) {
+            angle= angle;
+        }
+        angle = angle* PI / 180;
+
+        return sqrt(2 * f * f * cos(2 * angle));
     }
 
-    double Lemniscate::radAngle(double ang) const {
-        if (ang >= 360 || ang < 0)
+    double Lemniscate::radAngle(double angle) const {
+        if (angle>= 360 || angle< 0){
             throw std::invalid_argument("Invalid angle");
-        if ((ang > 45 && ang < 135) || (ang > 225 && ang < 315))
+        }
+        if ((angle> 45 && angle< 135) || (angle> 225 && angle< 315)){
             throw std::invalid_argument("Invalid angle");
-        double ang1=ang;
-        if (ang > 135 && ang < 180) ang1 = 180 - ang1;
-        else if (ang > 180 && ang < 225) ang1 = ang - 180;
-        else if (ang < 45 || ang>315) ang1 = ang;
+        }
+        double ang1=angle;
+        if (angle> 135 && angle< 180)
+            ang1 = 180 - ang1;
+        else if (angle> 180 && angle< 225)
+            ang1 = angle- 180;
+        else if (angle< 45 || angle>315)
+            ang1 = angle;
         ang1 = ang1 * PI / 180;
+
         return ((2 * f )/ (3 * sqrt(2 * cos(2 * ang1))));
     }
     double Lemniscate::radRad(double rad) const {
         if (rad <0 )
             throw std::invalid_argument("Invalid radius");
-        if(rad>abs(sqrt(2 * f * f * cos(0))))
+        if(rad>std::abs(sqrt(2 * f * f * cos(0))))
             throw std::invalid_argument("Invalid radius");
         return 2 * f * f /( 3 * rad);
     }
+
     std::string Lemniscate::formula() const {
         std::stringstream ss;
-        ss << " (x ^ 2 + y ^ 2) ^ 2 = 2 * " << f << "^ 2 * (x ^ 2 - y ^ 2)";
+        ss << " (x ^ 2 + y ^ 2) ^ 2 = 2 * " << f << "^2 * (x ^ 2 - y ^ 2)";
         return ss.str();
     }
 
@@ -102,7 +116,7 @@ namespace Prog2 {
 
     int dialog_input(Lemniscate &Lemniscate) {
         float c;
-        std::cout << "Enter new quantity of focus" << std::endl;
+        std::cout << "Enter new focus: " << std::endl;
         std::cin >> c;
         int f = std::cin.good();
         if (f) {
@@ -123,20 +137,21 @@ namespace Prog2 {
 
 
     int dialog_showFormula(Lemniscate &Lemniscate) {
-        std::cout << "Your lemniscate is:" << std::endl;
+        std::cout << "Formula of your lemniscate: " << std::endl;
         std::cout << Lemniscate.formula() << std::endl;
+
         return 1;
     }
 
     int dialog_getPolarDist(Lemniscate &Lemniscate) {
         std::cout << "Enter angle to calculate polar radius:" << std::endl;
-        double ang;
-        std::cin >> ang;
+        double angle;
+        std::cin >> angle;
         int f = std::cin.good();
         if (f) {
             try {
-                double res = Lemniscate.polardist(ang);
-                std::cout << "r = " << res;
+                double res = Lemniscate.polarDist(angle);
+                std::cout << "Polar radius is = " << res;
                 std::cout << std::endl;
             }
             catch (std::exception &ex) {
@@ -146,10 +161,9 @@ namespace Prog2 {
             std::cout<< "Repeat again!";
             dialog_getPolarDist(Lemniscate);
         }
+
         return 1;
     }
-
-
 
     int dialog_getRadiusAngle(Lemniscate &Lemniscate) {
         std::cout << "Enter angle to calculate the radius of curvature" << std::endl;
@@ -159,7 +173,7 @@ namespace Prog2 {
         if (f) {
             try {
                 double res = Lemniscate.radAngle(ang);
-                std::cout << "R = " << res << std::endl;;
+                std::cout << "Radius of curvature = " << res << std::endl;;
             }
             catch (std::exception& ex)
             {
@@ -169,18 +183,19 @@ namespace Prog2 {
             std::cout<< "Repeat again!";
             dialog_getRadiusAngle(Lemniscate);
         }
+
         return 1;
     }
 
     int dialog_getRadiusRad(Lemniscate &Lemniscate) {
         std::cout << "Enter polar radius to calculate the radius of curvature" << std::endl;
-        double ang;
-        std::cin >> ang;
+        double angle;
+        std::cin >> angle;
         int f = std::cin.good();
         if (f) {
             try {
-                double res = Lemniscate.radRad(ang);
-                std::cout << "R = " << res << std::endl;;
+                double res = Lemniscate.radRad(angle);
+                std::cout << "Radius of curvature = " << res << std::endl;;
             }
             catch (std::exception& ex)
             {
@@ -190,18 +205,19 @@ namespace Prog2 {
             std::cout<< "Repeat again!";
             dialog_getRadiusRad(Lemniscate);
         }
+
         return 1;
     }
 
     int dialog_getAreaSector(Lemniscate &Lemniscate) {
-        std::cout << "Enter angle to calculate the sector area or press ctrl+Z to quit:" << std::endl;
-        double ang;
-        std::cin >> ang;
+        std::cout << "Enter angle to calculate the sector area: " << std::endl;
+        double angle;
+        std::cin >> angle;
         int f = std::cin.good();
         if (f) {
             try {
-                double res = Lemniscate.Ssector(ang);
-                std::cout << "S = " << res << std::endl;;
+                double res = Lemniscate.sectorArea(angle);
+                std::cout << "Area of sector = " << res << std::endl;;
             }
             catch (std::exception& ex)
             {
@@ -215,7 +231,7 @@ namespace Prog2 {
     }
 
     int dialog_getArea(Lemniscate &Lemniscate) {
-        std::cout << "Area of two lemniscate's petals " << Lemniscate.S() << std::endl;
+        std::cout << "Area of Lemniscate" << Lemniscate.area() << std::endl;
         return 1;
     }
 

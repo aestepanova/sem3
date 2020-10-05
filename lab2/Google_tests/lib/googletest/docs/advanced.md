@@ -778,7 +778,7 @@ Expression | Meaning
 `\\n`      | matches `\n`
 `\\r`      | matches `\r`
 `\\s`      | matches any ASCII whitespace, including `\n`
-`\\S`      | matches any character that's not a whitespace
+`\\area`      | matches any character that's not a whitespace
 `\\t`      | matches `\t`
 `\\v`      | matches `\v`
 `\\w`      | matches any letter, `_`, or decimal digit
