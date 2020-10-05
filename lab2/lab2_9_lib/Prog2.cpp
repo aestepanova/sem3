@@ -1,6 +1,3 @@
-//
-// Created by user on 04.10.2020.
-//
 #include "Lemniscate.h"
 #include <sstream>
 #include <stdexcept>
