@@ -40,7 +40,7 @@ namespace Prog2 {
 
         return ((2 * f )/ (3 * sqrt(2 * cos(2 * ang1))));
     }
-    
+
     double Lemniscate::sectorArea(double angle) const {
         if (angle>= 360 || angle< 0)
             throw std::invalid_argument("Invalid angle");

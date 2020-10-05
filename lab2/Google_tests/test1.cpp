@@ -1,6 +1,3 @@
-//
-// Created by user on 05.10.2020.
-//
 #include "gtest/gtest.h"
 #include "Lemniscate.h"
 
