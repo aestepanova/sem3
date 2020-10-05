@@ -16,6 +16,31 @@ namespace Prog2 {
         return *this;
     }
 
+    std::string Lemniscate::formula() const {
+        std::stringstream ss;
+        ss << " (x ^ 2 + y ^ 2) ^ 2 = 2 * " << f << "^2 * (x ^ 2 - y ^ 2)";
+        return ss.str();
+    }
+
+    double Lemniscate::radAngle(double angle) const {
+        if (angle>= 360 || angle< 0){
+            throw std::invalid_argument("Invalid angle");
+        }
+        if ((angle> 45 && angle< 135) || (angle> 225 && angle< 315)){
+            throw std::invalid_argument("Invalid angle");
+        }
+        double ang1=angle;
+        if (angle> 135 && angle< 180)
+            ang1 = 180 - ang1;
+        else if (angle> 180 && angle< 225)
+            ang1 = angle- 180;
+        else if (angle< 45 || angle>315)
+            ang1 = angle;
+        ang1 = ang1 * PI / 180;
+
+        return ((2 * f )/ (3 * sqrt(2 * cos(2 * ang1))));
+    }
+    
     double Lemniscate::sectorArea(double angle) const {
         if (angle>= 360 || angle< 0)
             throw std::invalid_argument("Invalid angle");
@@ -62,24 +87,8 @@ namespace Prog2 {
         return sqrt(2 * f * f * cos(2 * angle));
     }
 
-    double Lemniscate::radAngle(double angle) const {
-        if (angle>= 360 || angle< 0){
-            throw std::invalid_argument("Invalid angle");
-        }
-        if ((angle> 45 && angle< 135) || (angle> 225 && angle< 315)){
-            throw std::invalid_argument("Invalid angle");
-        }
-        double ang1=angle;
-        if (angle> 135 && angle< 180)
-            ang1 = 180 - ang1;
-        else if (angle> 180 && angle< 225)
-            ang1 = angle- 180;
-        else if (angle< 45 || angle>315)
-            ang1 = angle;
-        ang1 = ang1 * PI / 180;
 
-        return ((2 * f )/ (3 * sqrt(2 * cos(2 * ang1))));
-    }
+
     double Lemniscate::radRad(double rad) const {
         if (rad <0 )
             throw std::invalid_argument("Invalid radius");
@@ -88,11 +97,7 @@ namespace Prog2 {
         return 2 * f * f /( 3 * rad);
     }
 
-    std::string Lemniscate::formula() const {
-        std::stringstream ss;
-        ss << " (x ^ 2 + y ^ 2) ^ 2 = 2 * " << f << "^2 * (x ^ 2 - y ^ 2)";
-        return ss.str();
-    }
+
 
     int dialog(const char *msgs[], int N) {
         std::string errmsg;

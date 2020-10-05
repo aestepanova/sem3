@@ -14,13 +14,13 @@ namespace Prog2 {
         explicit Lemniscate (double focus = 1.0); //чтобы не было неявных преобразований
 
         Lemniscate& setFocus(double focus);
+        std::string formula() const;
 
         double getFocus() const { return f; };
         double focusDist() const { return 2 * f; };
         double rad() const { return sqrt(2) * f; };
-        
+
         double polarDist(double angle) const;
-        std::string formula() const;
         double area() const { return 2 * (f * f); };
         double radAngle(double ang) const;
         double radRad(double rad) const;
