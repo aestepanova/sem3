@@ -18,7 +18,7 @@ namespace Prog2 {
 
     std::string Lemniscate::formula() const {
         std::stringstream ss;
-        ss << " (x ^ 2 + y ^ 2) ^ 2 = 2 * " << f << "^2 * (x ^ 2 - y ^ 2)";
+        ss << "(x^2 + y^2)^2 = 2*" << f << "^2 * (x^2 - y^2)";
         return ss.str();
     }
 

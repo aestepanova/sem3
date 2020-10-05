@@ -53,9 +53,9 @@ TEST(LemniscateMethods, S) {
 }
 TEST(LemniscateMethods, formula) {
     Prog2::Lemniscate f(5);
-    ASSERT_STRCASEEQ(" (x ^ 2 + y ^ 2) ^ 2 = 2 * 5^2 * (x ^ 2 - y ^ 2)", f.formula().c_str());
+    ASSERT_STRCASEEQ("(x^2 + y^2)^2 = 2*5^2 * (x^2 - y^2)", f.formula().c_str());
     f.setFocus(-5);
-    ASSERT_STRCASEEQ(" (x ^ 2 + y ^ 2) ^ 2 = 2 * 5^2 * (x ^ 2 - y ^ 2)", f.formula().c_str());
+    ASSERT_STRCASEEQ("(x^2 + y^2)^2 = 2*5^2 * (x^2 - y^2)", f.formula().c_str());
 }
 
 int _tmain(int argc, char* argv[]) {
