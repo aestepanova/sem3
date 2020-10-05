@@ -2,8 +2,13 @@ cmake_minimum_required(VERSION 3.17)
 project(lab2)
 
 set(CMAKE_CXX_STANDARD 17)
+set(SOURCE_FILES main.cpp)
 
+add_executable(lab2_run ${SOURCE_FILES})
 
-add_executable(lab2 main.cpp Lemniscate.h Prog2.cpp)
+include_directories(lab2_9_lib)
+add_subdirectory(lab2_9_lib)
 
+target_link_libraries(lab2_run lab2_9_lib)
 
+add_subdirectory(google_tests)

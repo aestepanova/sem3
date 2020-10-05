@@ -1,7 +1,7 @@
 //
 // Created by user on 04.10.2020.
 //
-#include "Lemniscate.h"
+#include "lab2_9_lib/Lemniscate.h"
 
 using namespace Prog2;
 

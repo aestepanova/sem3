@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Lemniscate.h
+math.h
+-
+sstream
+-
+iostream
+-
+
+C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Prog2.cpp
+Lemniscate.h
+C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Lemniscate.h
+sstream
+-
+stdexcept
+-
+
+C:/Users/user/Documents/GitHub/sem3/lab2/main.cpp
+lab2_9_lib/Lemniscate.h
+C:/Users/user/Documents/GitHub/sem3/lab2/lab2_9_lib/Lemniscate.h
+
