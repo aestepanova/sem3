@@ -1,15 +1,12 @@
-//
-// Created by user on 04.10.2020.
-//
-
-#ifndef LAB2_LEMNISCATE_H
-#define LAB2_LEMNISCATE_H
+#ifndef LAB2_LEMNISCATE_H // если имя ещё не определено
+#define LAB2_LEMNISCATE_H // определить имя
 
 #include <cmath>
 #include <sstream>
 #include <iostream>
 
 namespace Prog2 {
+
     class Lemniscate{
     private:
         double f;
@@ -17,9 +14,11 @@ namespace Prog2 {
         explicit Lemniscate (double focus = 1.0); //чтобы не было неявных преобразований
 
         Lemniscate& setFocus(double focus);
+
         double getFocus() const { return f; };
         double focusDist() const { return 2 * f; };
         double rad() const { return sqrt(2) * f; };
+        
         double polarDist(double angle) const;
         std::string formula() const;
         double area() const { return 2 * (f * f); };
