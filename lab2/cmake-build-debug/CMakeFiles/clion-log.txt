@@ -1,4 +1,5 @@
 "C:\Program Files\JetBrains\CLion 2019.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\user\Documents\GitHub\sem3\lab2
+-- Found PythonInterp: C:/Users/user/AppData/Local/Programs/Python/Python38/python.exe (found version "3.8.6") 
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/user/Documents/GitHub/sem3/lab2/cmake-build-debug

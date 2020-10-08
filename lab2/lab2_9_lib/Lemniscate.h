@@ -14,7 +14,7 @@ namespace Prog2 {
         explicit Lemniscate (double focus = 1.0); //чтобы не было неявных преобразований
 
         Lemniscate& setFocus(double focus);
-        std::string formula() const;
+        std::string formula() const; //изменить
 
         double getFocus() const { return f; };
         double focusDist() const { return 2 * f; };
@@ -27,9 +27,6 @@ namespace Prog2 {
 
         double sectorArea(double ang) const;
 
-        ~Lemniscate(){
-            std::cout << "Destructor called for Lemniscate with focus " << f << std::endl;
-        }
     };
 
     inline int getNatInt(int& n, const int max=std::numeric_limits<int>::max()) { //for natural int
