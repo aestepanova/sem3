@@ -1,8 +1,8 @@
 #include "bigNumber.h"
-#include <cstdlib>
-#include <cstdio>
+#include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
-#include <cstring>
+#include <string.h>
 
 namespace Prog3a {
 
@@ -12,23 +12,29 @@ namespace Prog3a {
         //все цифры - нули
         for (int i = 1; i < SZ + 1; ++i)
             Num[i] = 0;
-        n = 1;
+        n = 1; //количество разрядов
     }
-    bigDecNum::bigDecNum(long int x){
+
+    //формирование из типа long int
+    bigDecNum::bigDecNum(long int &x){
         try {
             long int a = abs(x);
             while (a){
-                ++n;
+                ++n; //считаем количество разрядов
                 a /= 10;
             }
-            if (x < 0) Num[0] = 1;
-            else Num[0]=0;
+            //устанавливаем знак
+            if (x < 0)
+                Num[0] = 1;
+            else
+                Num[0]=0;
             if (n > SZ)
                 throw "Overflow";
             for (int i = 1; i <= n; i++) {
                 Num[i] = (a % 10);
                 a /= 10;
             }
+            //заполнение лидирующими нулями
             for (int i = SZ; i >= SZ - n + 1; i--)
                 Num[i] = 0;
         }
@@ -36,44 +42,44 @@ namespace Prog3a {
             std::cout << msg.what() << std::endl;
         }
     }
+    //конструирование большого числа из строки
     bigDecNum::bigDecNum(const char* str) {
         try {
             Set(str);
         }
         catch (std::exception& a) {
-            throw std::exception("Wrong data");
+            throw "Wrong data";
         }
     }
+
     bigDecNum& bigDecNum::Set(const char* str){
         try {
             std::string STR = str;
             if (str == nullptr)
                 throw "Nullptr";
+            //определяем длину строки
             int l = STR.std::string::length();
             n = l;
-            int z=0;
-            if (str[0] == '-') {
+            if (str[0] == '-'){
                 Num[0] = 1;
-                z++;
                 n--;
             }
             else Num[0] = 0;
+
+            //проверка, есть ли в строке нецифровые символы
             int pr1 = STR.std::string::find_first_not_of("0123456789");
             if (pr1 > 0) {
                 Num[0] = 0;
-                throw "Incorrect data. Your number can begin only from - or 0-9 chars and contain 0-9 chars";
+                throw "Incorrect data. Your can only have 0-9 chars";
             }
-            int i = 0;
-            i = l - 1;
-            bool tmp = true;
+
+            int i = l - 1; //идем со старших разрядов
             for (int k = 1; k <= n; k++) {
                 Num[k] = str[i]-'0';
                 i--;
-                if (tmp && Num[k] != 0)
-                    tmp = false;
             }
-            if (tmp)
-                Num[0] = 0;
+
+            //заполнение лидирующими нулями
             for (int k = SZ; k >= n + 1; k--)
                 Num[k] = 0;
         }
@@ -109,7 +115,9 @@ namespace Prog3a {
                 if (t.Num[i] > Num[i]) return false;
             }
         }
+        return 0;
     }
+
     bigDecNum bigDecNum::Sum(const bigDecNum& t)const
     {
         try {
@@ -209,7 +217,10 @@ namespace Prog3a {
         catch (const std::exception& msg) {
             std::cout << msg.what() << std::endl;
         }
+        return 0;
     }
+
+
     void bigDecNum::Print() const
     {
         if (Num[0] == 1)
@@ -226,67 +237,146 @@ namespace Prog3a {
             }
         }
     }
-}
 
 /// dialog functions
 
-int dialog(const char *msgs[], int N) {
-    std::string errmsg;
-    int rc, n;
-    do {
-        std::cout << errmsg;
-        errmsg = "You are wrong. Repeat, please\n";
-        for (int j = 0; j < N; ++j)
-            puts(msgs[j]);
-        puts("Make your choice: --> ");
+    int dialog(const char *msgs[], int N) {
+        std::string errmsg;
+        int rc, n;
+        do {
+            std::cout << errmsg;
+            errmsg = "You are wrong. Repeat, please\n";
+            for (int j = 0; j < N; ++j)
+                puts(msgs[j]);
+            puts("Make your choice: --> ");
 
-        n = getNatInt(rc);
-        if (n == 0)
-            rc = 0;
-    } while (rc < 0 || rc >= N);
-    return rc;
-}
+            n = getNatInt(rc);
+            if (n == 0)
+                rc = 0;
+        } while (rc < 0 || rc >= N);
+        return rc;
+    }
 
-int dialog_inputStr(bigDecNum &bigDecNum) {
-    str ss;
-    std::cout << "Enter your big decimal number: " << std::endl;
-    std::cin >> ss;
-    int f = std::cin.good();
-    if (f) {
+    int dialog_inputStr(bigDecNum &bigDecNum) {
         try {
-            bigDecNum.InputStr(ss);
+            bigDecNum.InputStr();
         }
         catch (std::exception& ex) {
             std::cout << ex.what() << std::endl;
         }
-    }
-    else{
-        std::cout<< "Repeat again!";
-        dialog_inputStr(bigDecNum);
+        return 1;
     }
 
-    return 1;
-}
+    int dialog_inputLong(bigDecNum &bigDecNum) {
+        long int num;
+        std::cout << "Enter your big decimal number as long: " << std::endl;
+        std::cin >> num;
+        int f = std::cin.good();
+        if (f) {
+            try {
+                bigDecNum(num);
+            }
+            catch (std::exception& ex) {
+                std::cout << ex.what() << std::endl;
+            }
+        }
+        else{
+            std::cout<< "Repeat again!";
+            dialog_inputLong(bigDecNum);
+        }
 
-int dialog_inputLong(bigDecNum &bigDecNum) {
-    long num;
-    std::cout << "Enter your big decimal number: " << std::endl;
-    std::cin >> num;
-    int f = std::cin.good();
-    if (f) {
+        return 1;
+    }
+
+    int dialog_getAddCode(bigDecNum &f) {
+        bigDecNum add;
         try {
-            bigDecNum.InputLong(num);
+            add = f.AddCode();
+            add.Print();
         }
         catch (std::exception& ex) {
             std::cout << ex.what() << std::endl;
         }
-    }
-    else{
-        std::cout<< "Repeat again!";
-        dialog_inputStr(bigDecNum);
+
+        return 1;
     }
 
-    return 1;
-}
+    int dialog_sum(bigDecNum &f) {
+        std::cout << "Enter first big integer" << std::endl;
+        std::cout << "First: ";
+        f=f.InputStr();
+        std::cout << std::endl;
+        std::cout << "Enter second big integer" << std::endl;
+        std::cout << "Second: ";
+        bigDecNum s;
+        s=s.InputStr();
+        std::cout<< std::endl;
+        try {
+            f.Print();
+            std::cout << "+(";
+            s.Print();
+            std::cout << ")=";
+            bigDecNum Sum(f.Sum(s));
+            Sum.Print();
+            std::cout << std::endl;
+        }
+        catch (const std::exception& msg) {
+            std::cout << msg.what() << std::endl;
+        }
+        return 1;
+    }
 
+    int dialog_sub(bigDecNum &f) {
+        std::cout << "Enter first big integer" << std::endl;
+        std::cout << "First: ";
+        f=f.InputStr();
+        std::cout << std::endl;
+        std::cout << "Enter second big integer" << std::endl;
+        std::cout << "Second: ";
+        bigDecNum s;
+        s=s.InputStr();
+        std::cout<< std::endl;
+        try {
+            f.Print();
+            std::cout << "-(";
+            s.Print();
+            std::cout << ")=";
+            bigDecNum Sub(f.Subtraction(s));
+            Sub.Print();
+            std::cout << std::endl;
+        }
+        catch (const std::exception& msg) {
+            std::cout << msg.what() << std::endl;
+        }
+        return 1;
+    }
+
+    int dialog_inc10(bigDecNum &f) {
+        try {
+            bigDecNum f1=f.Inc10();
+            std::cout << "Recived number: ";
+            f1.Print();
+            std::cout << std::endl;
+        }
+        catch (const std::exception& msg) {
+            std::cout << msg.what() << std::endl;
+        }
+        return 1;
+    }
+
+    int dialog_dec10(bigDecNum &f) {
+        try {
+            bigDecNum f1=f.Dec10();
+            std::cout << "Recived number: ";
+            f1.Print();
+            std::cout << std::endl;
+        }
+        catch (const std::exception& msg) {
+            std::cout << msg.what() << std::endl;
+        }
+        return 1;
+    }
 ///
+
+}
+

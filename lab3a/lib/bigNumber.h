@@ -15,7 +15,7 @@ namespace Prog3a {
         int n; //кол-во разрядов
     public:
         bigDecNum();
-        bigDecNum(long int x);
+        bigDecNum(long int& x);
         bigDecNum(const char* str);
         bigDecNum& Set(const char* str);
         bigDecNum Inc10() const;
@@ -43,8 +43,8 @@ namespace Prog3a {
     int dialog_inputStr(bigDecNum &);
     int dialog_inputLong(bigDecNum &);
     int dialog_getAddCode(bigDecNum &);
-    int dialog_add(bigDecNum &);
-    int dialog_subtruct(bigDecNum &);
+    int dialog_sum(bigDecNum &);
+    int dialog_sub(bigDecNum &);
     int dialog_inc10(bigDecNum &);
     int dialog_dec10(bigDecNum &);
 
