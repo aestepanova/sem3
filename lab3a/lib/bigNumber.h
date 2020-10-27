@@ -15,18 +15,18 @@ namespace Prog3a {
         int n; //кол-во разрядов
     public:
         bigDecNum();
-        bigDecNum(long int& x);
+        bigDecNum(long int x);
         bigDecNum(const char* str);
         bigDecNum& Set(const char* str);
         bigDecNum Inc10() const;
         bigDecNum Dec10() const;
-        const bigDecNum AddCode() const;
+        bigDecNum AddCode() const;
         bool Large(const bigDecNum& t) const;
         bigDecNum Sum(const bigDecNum& t) const;
         bigDecNum Subtraction(bigDecNum) const;
         bigDecNum InputStr() const;
         void Print() const;
-
+        int ToNum() const;
     };
 
     inline int getNatInt(int& n, const int max=std::numeric_limits<int>::max()) { //for natural int
@@ -40,11 +40,7 @@ namespace Prog3a {
 
     int dialog(const char *[], int);
 
-    int dialog_inputStr(bigDecNum &);
-    int dialog_inputLong(bigDecNum &);
     int dialog_getAddCode(bigDecNum &);
-    int dialog_sum(bigDecNum &);
-    int dialog_sub(bigDecNum &);
     int dialog_inc10(bigDecNum &);
     int dialog_dec10(bigDecNum &);
 
