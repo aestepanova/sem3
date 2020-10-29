@@ -28,7 +28,7 @@ namespace Prog3a {
             a /= 10;
             i++;
             if (n > SZ)
-                throw std::runtime_error("Overflow");
+                throw std::invalid_argument("Overflow");
         }
         for (int j = SZ; j >= SZ - n + 1; j--) Num[j] = 0; //заполнение лидирующими нулями
     }
@@ -42,6 +42,7 @@ namespace Prog3a {
         std::string STR = str;
         //определяем длину строки
         int l = STR.std::string::length();
+        if (l>SZ+1) throw std::invalid_argument("Too many chars!");
         n = l;
         if (str[0] == '-'){
             Num[0] = 1;
@@ -53,7 +54,7 @@ namespace Prog3a {
         int pr1 = STR.std::string::find_first_not_of("-0123456789");
         if (pr1 >= 0) {
             Num[0] = 0;
-            std::runtime_error("Incorrect data. Your can only have 0-9 chars");
+            throw std::invalid_argument("Incorrect data. Your can only have 0-9 chars");
         }
 
         int z = 0;
@@ -95,13 +96,14 @@ namespace Prog3a {
         for (int i = 1; i <= SZ; i++) {
             if (pr && Num[i] != 0) {
                 a.Num[i] = 10 - Num[i];
-                pr=0;
+                pr = 0;
             }
             else if (!pr)
                 a.Num[i] = 9 - Num[i];
         }
+        a.n = n;
         if (Num[1] == 0) a.Num[1] = 0;
-        a.Num[0] = 0;
+        a.Num[0] = Num[0];
         return a;
     }
     bool bigDecNum::Large(const bigDecNum& t) const {
@@ -132,7 +134,7 @@ namespace Prog3a {
             }
         }
         if ((dop > 0) && index && ((Num[SZ] != 0) || (t.Num[SZ] != 0)))
-            throw std::runtime_error("Overflow!");
+            throw std::invalid_argument("Overflow!");
         if (!index) {
             if ((this)->Large(t)) {
                 s1.Num[0] = Num[0];
@@ -173,7 +175,7 @@ namespace Prog3a {
             return inc;
         }
         if (Num[SZ] != 0)
-            throw std::runtime_error("Overflow!");
+            throw std::invalid_argument("Overflow!");
         inc.Num[0] = Num[0];
         inc.Num[1] = 0;
         for (int i = n; i >= 1; i--)
@@ -199,7 +201,7 @@ namespace Prog3a {
         std::string ss;
         std::cin >> ss;
         if (ss.std::string::length() > SZ + 1)
-            std::runtime_error("Overflow. You enter too big number!");
+            throw std::invalid_argument("Overflow!");
         ptr = ss.c_str();
         std::cin.clear();
         bigDecNum decNum(ptr);
@@ -226,11 +228,11 @@ namespace Prog3a {
     }
 
     //для тестов
-    int bigDecNum::ToNum() const{
+    int bigDecNum::ToInt() const{
         int i = 0;
         int pow = 1;
-        if (n > 8)
-            throw - 1;
+        if (n > 50)
+            throw std::invalid_argument("Too many chars!");
         for (int k = 1; k <= n; k++) {
             i += Num[k] * pow;
             pow *= 10;
@@ -252,7 +254,7 @@ namespace Prog3a {
                 puts(msgs[j]);
             puts("Make your choice: --> ");
 
-            n = getNatInt(rc);
+            n = getInt(rc);
             if (n == 0)
                 rc = 0;
         } while (rc < 0 || rc >= N);
@@ -260,10 +262,10 @@ namespace Prog3a {
     }
 
     int dialog_getAddCode(bigDecNum &f) {
-        bigDecNum add;
+
         try {
-            add = f.AddCode();
-            add.Print();
+            std::cout<<"There is an add-code for your first num: ";
+            f.AddCode().Print();
         }
         catch (std::exception& ex) {
             std::cout << ex.what() << std::endl;

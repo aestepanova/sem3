@@ -26,15 +26,15 @@ namespace Prog3a {
         bigDecNum Subtraction(bigDecNum) const;
         bigDecNum InputStr() const;
         void Print() const;
-        int ToNum() const;
+        int ToInt() const;
     };
 
-    inline int getNatInt(int& n, const int max=std::numeric_limits<int>::max()) { //for natural int
+    inline int getInt(int& n, const int max=std::numeric_limits<int>::max()) { //for natural int
         std::cin >> n;
         if (!std::cin.good())	// обнаружена ошибка ввода или конец файла
             return -1;
         if (n>=max) return -2;
-        if (n<=0) return 0;
+        if (n<0) return 0;
         return 1;
     }
 

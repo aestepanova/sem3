@@ -56,9 +56,9 @@ int main() {
         const char *pr ="";
         do{
             std::cout << pr << std::endl;
-            std::cout << "Do you want to repeat with other numbers?(1 - Yes, 0 - No";
+            std::cout << "Do you want to repeat with other numbers?(1 - Yes, 0 - No): ";
             pr = "You should enter 1 or 0. Repeat please!";
-            if (getNatInt(f) <= 0) // обнаружена ошибка ввода
+            if (getInt(f) > 0 || ((f != 1) || (f != 0))) // обнаружена ошибка ввода
                 f=-1;
         } while (f < 1);
 
