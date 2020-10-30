@@ -54,7 +54,8 @@ namespace Prog3a {
         int pr1 = STR.std::string::find_first_not_of("-0123456789");
         if (pr1 >= 0) {
             Num[0] = 0;
-            throw std::invalid_argument("Incorrect data. Your can only have 0-9 chars");
+            throw std::runtime_error("Incorrect data. Your can only have 0-9 chars");
+//            throw std::invalid_argument("Incorrect data. Your can only have 0-9 chars");
         }
 
         int z = 0;
@@ -87,7 +88,6 @@ namespace Prog3a {
     }
 
 
-
     bigDecNum bigDecNum::AddCode() const{
         bigDecNum a;
         if (Num[0] == 0)
@@ -115,48 +115,53 @@ namespace Prog3a {
                 if (t.Num[i] > Num[i]) return false;
             }
         }
-        return true;
+        return false;
     }
 
-    bigDecNum bigDecNum::Sum(const bigDecNum& t)const
-    {
+    bigDecNum bigDecNum::Sum(const bigDecNum& t) const {
         int dop = 0;
         bool index = (Num[0] == t.Num[0]);
         int j = n >= t.n ? n : t.n;
         bigDecNum s1 = (this)->AddCode(), s2(t.AddCode());
-        for (int i = 0; i <= SZ; i++) {
-            if (s1.Num[i] + s2.Num[i] + dop < 10) {
-                s1.Num[i] = s1.Num[i] + s2.Num[i] + dop;
-                dop = 0;
-            } else {
-                s1.Num[i] = s1.Num[i] + s2.Num[i] + dop - 10;
-                dop = 1;
+        try{
+            for (int i = 0; i <= SZ; i++) {
+                if (s1.Num[i] + s2.Num[i] + dop < 10) {
+                    s1.Num[i] = s1.Num[i] + s2.Num[i] + dop;
+                    dop = 0;
+                } else {
+                    s1.Num[i] = s1.Num[i] + s2.Num[i] + dop - 10;
+                    dop = 1;
+                }
             }
-        }
-        if ((dop > 0) && index && ((Num[SZ] != 0) || (t.Num[SZ] != 0)))
-            throw std::invalid_argument("Overflow!");
-        if (!index) {
-            if ((this)->Large(t)) {
+            if ((dop > 0) && index && ((Num[SZ] != 0) || (t.Num[SZ] != 0)))
+                throw std::invalid_argument("Overflow!");
+            if (!index) {
+                if ((this)->Large(t)) {
+                    s1.Num[0] = Num[0];
+                } else if (t.Large(*this)) {
+                    s1.Num[0] = t.Num[0];
+                } else {
+                    s1.Num[0] = 0;
+                    s1.n = 1;
+                    return s1;
+                }
+            } else
                 s1.Num[0] = Num[0];
-            } else if (t.Large(*this)) {
-                s1.Num[0] = t.Num[0];
-            } else {
-                s1.Num[0] = 0;
-                s1.n = 1;
-                return s1;
+            s1 = s1.AddCode();
+            if (j < SZ) j += 1;
+            for (int i = j; i > 0; i--) {
+                if (s1.Num[i] != 0) {
+                    s1.n = i;
+                    break;
+                }
             }
-        } else
-            s1.Num[0] = Num[0];
-        s1 = s1.AddCode();
-        if (j < SZ) j += 1;
-        for (int i = j; i > 0; i--) {
-            if (s1.Num[i] != 0) {
-                s1.n = i;
-                break;
-            }
+            return s1;
         }
-        return s1;
+        catch (const std::exception &msg) {
+            std::cout << msg.what() << std::endl;
+            return s1;
         }
+   }
 
     bigDecNum bigDecNum::Subtraction(bigDecNum t) const{
         bigDecNum s2 = t, s1 = *this;
@@ -201,7 +206,7 @@ namespace Prog3a {
         std::string ss;
         std::cin >> ss;
         if (ss.std::string::length() > SZ + 1)
-            throw std::invalid_argument("Overflow!");
+            throw std::runtime_error("Overflow!");
         ptr = ss.c_str();
         std::cin.clear();
         bigDecNum decNum(ptr);
@@ -216,7 +221,6 @@ namespace Prog3a {
         if (n == 1) {
             if (Num[1] == 0) k = true;
         }
-        if (k) std::cout << 0;
         if (n == 1 && Num[1] == 0) std::cout << 0;
         else {
             for (int i = n; i >= 1; i--) {
