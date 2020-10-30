@@ -1,16 +1,15 @@
-#include "bigNum_char.h"
+#include "bigNum.h"
 #include <cstdio>
-#include <iostream>
 #include <cstring>
 
 
 
-namespace Prog3a_char {
+namespace Prog3b {
 
     bigDecNum::bigDecNum()
     {
         //знак +, все цифры - нули
-        for (int i = 0; i < SZ + 1; ++i) Num[i] = 0;
+        for (char & i : Num) i = 0;
         n = 1; //количество разрядов
     }
 
@@ -62,6 +61,7 @@ namespace Prog3a_char {
         }
 
         int z = 0;
+        //установка знака
         int i = str[0] == '-' ? 1 : 0;
         if ((str[0] == '-' && str[1] == '0') || str[0] == '0') {
             while (str[i] == '0') { //считаем лидирующие нули
@@ -90,8 +90,21 @@ namespace Prog3a_char {
         return *this;
     }
 
+    //сравнение абсолютных значений чисел
+    bool bigDecNum::CompareAbs(const bigDecNum& t) const {
+        if (n > t.n) return true;
+        if (t.n > n) return false;
+        if (t.n == n) {
+            for (int i = n; i >= 1; i--) {
+                if (Num[i] > t.Num[i]) return true;
+                if (t.Num[i] > Num[i]) return false;
+            }
+        }
+        return false;
+    }
 
-    bigDecNum bigDecNum::AddCode() const{
+    // перегрузка оператора побитового not для нашего класса
+    bigDecNum bigDecNum::operator~() const {
         bigDecNum a;
         if (Num[0] == 0)
             return *this;
@@ -110,104 +123,129 @@ namespace Prog3a_char {
         return a;
     }
 
+    // перегрузка оператора сложения
+    bigDecNum operator +(const bigDecNum fir, const bigDecNum sec) {
+        int dop = 0;
+        bool index = (fir.Num[0] == sec.Num[0]);
+        int j = fir.n >= sec.n ? fir.n : sec.n;
+        bigDecNum s1 = ~fir, s2 = ~sec;
+        for (int i = 0; i < fir.SZ; i++) {
+            if (s1.Num[i] + s2.Num[i] + dop < 10) {
+                s1.Num[i] = s1.Num[i] + s2.Num[i] + dop;
+                dop = 0;
+            }
+            else {
+                s1.Num[i] = s1.Num[i] + s2.Num[i] + dop - 10;
+                dop = 1;
+            }
+        }
+        if ((dop > 0) && index && ((fir.Num[fir.SZ] != 0) || (sec.Num[sec.SZ] != 0)))
+            throw std::runtime_error("Overflow!");
+        if (!index) {
+            if (fir.CompareAbs(sec)) s1.Num[0] = fir.Num[0];
+            else if (sec.CompareAbs(fir)) s1.Num[0] = sec.Num[0];
+            else {
+                s1.Num[0] = 0;
+                s1.n = 1;
+                return s1;
+            }
+        }
+        else s1.Num[0] = fir.Num[0];
+        s1 = ~s1;
+        if (j < fir.SZ) j += 1;
+        for (int i = j; i > 0; i--) {
+            if (s1.Num[i] != 0) {
+                s1.n = i;
+                break;
+            }
+        }
+        return s1;
+    }
 
-
-    bool bigDecNum::Large(const bigDecNum& t) const {
-        if (n > t.n) return true;
-        if (t.n > n) return false;
-        if (t.n == n) {
+    // перегрузка оператора сравнения больше
+    bool bigDecNum::operator >(const bigDecNum& second) {
+        if (Num[0] == '1' && second.Num[0] == 0) return false;
+        if (Num[0] == '0' && second.Num[0] == 1) return true;
+        if (n > second.n) return true;
+        if (n < second.n) return false;
+        if (second.n == n && Num[0] == 0) {
             for (int i = n; i >= 1; i--) {
-                if (Num[i] > t.Num[i]) return true;
-                if (t.Num[i] > Num[i]) return false;
+                if (Num[i] > second.Num[i]) return true;
+                if (second.Num[i] > Num[i]) return false;
+            }
+        }
+        if (second.n == n && Num[0] == 1) {
+            for (int i = n; i >= 1; i--) {
+                if (Num[i] > second.Num[i]) return false;
+                if (second.Num[i] > Num[i]) return true;
             }
         }
         return false;
     }
 
-    bigDecNum bigDecNum::Sum(const bigDecNum& t) const {
-        int dop = 0;
-        bool index = (Num[0] == t.Num[0]);
-        int j = n >= t.n ? n : t.n;
-        bigDecNum s1 = (this)->AddCode(), s2(t.AddCode());
-       // try{
-            for (int i = 0; i <= SZ; i++) {
-                if (s1.Num[i] + s2.Num[i] + dop < 10) {
-                    s1.Num[i] = s1.Num[i] + s2.Num[i] + dop;
-                    dop = 0;
-                } else {
-                    s1.Num[i] = s1.Num[i] + s2.Num[i] + dop - 10;
-                    dop = 1;
-                }
+    // перегрузка опреатора сравнения меньше
+    bool bigDecNum::operator <(const bigDecNum& second) {
+        if (Num[0] == 1 && second.Num[0] == 0) return true;
+        if (Num[0] == 0 && second.Num[0] == 1) return false;
+        if (n < second.n) return true;
+        if (n > second.n) return false;
+        if (second.n == n && Num[0] == 0) {
+            for (int i = n; i >= 1; i--) {
+                if (Num[i] < second.Num[i]) return true;
+                if (second.Num[i] < Num[i]) return false;
             }
-            if ((dop > 0) && index && ((Num[SZ] != 0) || (t.Num[SZ] != 0)))
-                throw std::invalid_argument("Overflow!");
-            if (!index) {
-                if ((this)->Large(t)) {
-                    s1.Num[0] = Num[0];
-                } else if (t.Large(*this)) {
-                    s1.Num[0] = t.Num[0];
-                } else {
-                    s1.Num[0] = 0;
-                    s1.n = 1;
-                    return s1;
-                }
-            } else
-                s1.Num[0] = Num[0];
-            s1 = s1.AddCode();
-            if (j < SZ) j += 1;
-            for (int i = j; i > 0; i--) {
-                if (s1.Num[i] != 0) {
-                    s1.n = i;
-                    break;
-                }
+        }
+        if (second.n == n && Num[0] == 1) {
+            for (int i = n; i >= 1; i--) {
+                if (Num[i] < second.Num[i]) return false;
+                if (second.Num[i] < Num[i]) return true;
             }
-            return s1;
-//        }
-//        catch (const std::exception &msg) {
-//            std::cout << msg.what() << std::endl;
-//            //return s1;
-//        }
+        }
+        return false;
     }
 
-    bigDecNum bigDecNum::Subtraction(bigDecNum t) const{
-        bigDecNum s2 = t, s1 = *this;
-        if (s2.Num[0] == 0) s2.Num[0] = 1;
-        else s2.Num[0] = 0;
-        s1 = s1.Sum(s2);
-        return s1;
+    // перегрузка оператора сравнивания
+    bool bigDecNum::operator ==(const bigDecNum& first) {
+        if (n != first.n) return false;
+        if (first.n == n && Num[0] == first.Num[0]) {
+            for (int i = n; i >= 0; i--) {
+                if (Num[i] != first.Num[i]) return false;
+            }
+            return true;
+        }
+        return false;
     }
 
-    bigDecNum bigDecNum::Inc10() const
-    {
-        bigDecNum inc;
-        inc.n = n + 1;
+    // сдвиг влево на pr разрядов с присваиванием (увеличение числа)
+    bigDecNum bigDecNum::operator >>=(int pr) {
         if (n == 1 && Num[1] == 0) {
-            inc.n = 1;
-            return inc;
+            n = 1;
+            return *this;
         }
-        if (Num[SZ] != 0)
-            throw std::invalid_argument("Overflow!");
-        inc.Num[0] = Num[0];
-        inc.Num[1] = 0;
-        for (int i = n; i >= 1; i--)
-            inc.Num[i + 1] = Num[i];
-        return inc;
+        Num[0] = Num[0];
+        if (Num[SZ - pr] != 0)
+            throw std::runtime_error("Overflow");
+        for (int i = n; i >= 1; i--) Num[i + pr] = Num[i];
+        for (int i = 1; i <= pr; i++) Num[i] = 0;
+        n = n + pr;
+        return *this;
     }
-    bigDecNum bigDecNum::Dec10() const
-    {
-        bigDecNum inc;
-        inc.n = n - 1;
-        if (n == 1) {
-            inc.n = 1;
-            return inc;
+    // сдвиг вправо на pr разрядов с присваиванием (уменьшение числа)
+    bigDecNum& bigDecNum::operator <<=(int pr) {
+        if (n - pr <= 0) {
+            for (int i = 0; i <= n; i++) {
+                Num[i] = 0;
+            }
+            n = 1;
+            return *this;
         }
-        inc.Num[0] = Num[0];
-        for (int i = n; i >= 2; i--)
-            inc.Num[i - 1] = Num[i];
-        return inc;
+        for (int i = 1; i <= n; i++) Num[i] = Num[i+pr];
+        n = n - pr;
+        return *this;
     }
 
-    bigDecNum bigDecNum::InputStr() const{
+    // перегрузка оператора ввода
+    std::istream& operator >>(std::istream& s, bigDecNum& t) {
         try {
             char* ptr = (char*)malloc(1);
             *ptr = '\0';
@@ -232,42 +270,40 @@ namespace Prog3a_char {
                     strcat_s(ptr, len + 1, buf);
                 }
             } while (n > 0);
-            if (strlen(ptr) > SZ + 1) {
+            if (strlen(ptr) > t.SZ + 1) {
                 std::cout << "Overflow. You enter too big number" << std::endl;
-                return *this;
+                return s;
             }
-            bigDecNum a(ptr);
-            return a;
+            std::cin.clear();
+            t.Set(ptr);
         }
+
         catch (const std::exception& msg) {
             std::cout << msg.what() << std::endl;
         }
-        return *this;
+        return s;
     }
 
-    void bigDecNum::Print() const{
-        if (Num[0] == 1)
-            std::cout << "-";
-        bool k = false;
-        if (n == 1) {
-            if (Num[1] == 0) k = true;
+    // перегрузка оператора вывода
+    std::ostream& operator <<(std::ostream& s, const bigDecNum& t) {
+        if (t.Num[0] == 1)
+            s << "-";
+        if (t.n == 1) {
+            if (t.Num[1] == 0) s << 0;
         }
-        if (n == 1 && Num[1] == 0 && k) std::cout << 0;
         else {
-            for (int i = n; i >= 1; i--) {
-                int t = Num[i];
-                std::cout << t;
+            for (int i = t.n; i >= 1; i--) {
+                int print = t.Num[i];
+                s << print;
             }
         }
-        std::cout<<std::endl;
+        return s;
     }
-
-    //для тестов
-    int bigDecNum::ToInt() const{
+    bigDecNum::operator int() const {
         int i = 0;
         int pow = 1;
         if (n > 50)
-            throw std::invalid_argument("Too many chars!");
+            throw -1;
         for (int k = 1; k <= n; k++) {
             i += Num[k] * pow;
             pow *= 10;
@@ -297,6 +333,15 @@ namespace Prog3a_char {
         return 1;
     }
 
+    bigDecNum bigDecNum::operator-() const {
+        bigDecNum neg = *this;
+        if ((n == 1 && Num[1] != 0) || (n != 1)) {
+            neg.Num[0] = Num[0] == 0 ? 1 : 0;
+        }
+        neg.n = n;
+        return neg;
+    }
+
 
 /// dialog functions
 
@@ -320,8 +365,7 @@ namespace Prog3a_char {
     int dialog_getAddCode(bigDecNum &f) {
 
         try {
-            std::cout<<"There is an add-code for your first num: ";
-            f.AddCode().Print();
+            std::cout<<"There is an add-code for your first num: " << ~f;
         }
         catch (std::exception& ex) {
             std::cout << ex.what() << std::endl;
@@ -332,9 +376,8 @@ namespace Prog3a_char {
 
     int dialog_inc10(bigDecNum &f) {
         try {
-            bigDecNum f1=f.Inc10();
-            std::cout << "Received number: ";
-            f1.Print();
+            bigDecNum f1=f;
+            std::cout << "Received number: " << (f1>>=1);
             std::cout << std::endl;
         }
         catch (const std::exception& msg) {
@@ -345,10 +388,8 @@ namespace Prog3a_char {
 
     int dialog_dec10(bigDecNum &f) {
         try {
-            bigDecNum f1=f.Dec10();
-            std::cout << "Received number: ";
-            f1.Print();
-            std::cout << std::endl;
+            bigDecNum f1=f;
+            std::cout << "Received number: " << (f1<<=1) << std::endl;
         }
         catch (const std::exception& msg) {
             std::cout << msg.what() << std::endl;
@@ -357,7 +398,7 @@ namespace Prog3a_char {
     }
 
     int dialog_print(bigDecNum &a){
-        a.Print();
+        std::cout << a;
         return 1;
     }
 ///

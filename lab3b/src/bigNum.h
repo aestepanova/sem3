@@ -1,12 +1,13 @@
-#ifndef LAB3A_BIGNUM_CHAR_H
-#define LAB3A_BIGNUM_CHAR_H
+
+#ifndef LAB3B_BIGNUM_H
+#define LAB3B_BIGNUM_H
 
 #include <cmath>
 #include <sstream>
 #include <iostream>
 #include <limits>
 
-namespace Prog3a_char {
+namespace Prog3b {
 
     class bigDecNum{
 
@@ -20,16 +21,20 @@ namespace Prog3a_char {
         bigDecNum(long int x);
         bigDecNum(const char* str);
         bigDecNum& Set(const char* str);
-        bigDecNum Inc10() const;
-        bigDecNum Dec10() const;
-        bigDecNum AddCode() const;
-        bool Large(const bigDecNum& t) const;
-        bigDecNum Sum(const bigDecNum& t) const;
-        bigDecNum Subtraction(bigDecNum) const;
-        bigDecNum InputStr() const;
-        void Print() const;
-        int ToInt() const;
-        int digit_plus(const char *);
+        friend bigDecNum operator +(bigDecNum, bigDecNum);
+        friend bigDecNum operator -(const bigDecNum& first, const bigDecNum& second) { return first + (-second); };
+        bigDecNum operator -() const;
+        bigDecNum operator~() const;
+        bigDecNum& operator <<=(int);
+        bigDecNum operator >>=(int);
+        bool operator >(const bigDecNum&);
+        bool operator <(const bigDecNum&);
+        bool operator ==(const bigDecNum&);
+        friend std::ostream& operator <<(std::ostream&, const bigDecNum&);
+        friend std::istream& operator >>(std::istream&, bigDecNum&);
+        bool CompareAbs(const bigDecNum&) const;
+        operator int() const;
+        static int digit_plus(const char *);
     };
 
     inline int getInt(int& n, const int max=std::numeric_limits<int>::max()) { //for natural int
@@ -50,4 +55,5 @@ namespace Prog3a_char {
 
 }
 
-#endif //LAB3A_BIGNUM_CHAR_H
+
+#endif //LAB3B_BIGNUM_H
