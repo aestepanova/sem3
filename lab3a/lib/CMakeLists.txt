@@ -6,6 +6,6 @@ set(HEADER_FILES
 
 set(SOURCE_FILES
         Prog3.cpp
-        )
+        Prog3a_char.cpp bigNum_char.h)
 
 add_library(lib STATIC ${SOURCE_FILES} ${HEADER_FILES})

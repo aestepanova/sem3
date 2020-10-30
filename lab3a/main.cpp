@@ -1,11 +1,12 @@
-#include "lib/bigNumber.h"
+#include "lib/bigNum_char.h"
 
-using namespace Prog3a;
+using namespace Prog3a_char;
 
 const char *msgs[] = {" 0. Exit",
                       " 1. Get add-code",
                       " 2. Increase by 10 times",
-                      " 3. Decrease by 10 times"
+                      " 3. Decrease by 10 times",
+                      " 4. What is the number?"
 };
 
 const int NMsgs = sizeof(msgs) / sizeof(msgs[0]);
@@ -13,7 +14,8 @@ const int NMsgs = sizeof(msgs) / sizeof(msgs[0]);
 int (*functions[])(bigDecNum &) = {nullptr,
                                     dialog_getAddCode,
                                     dialog_inc10,
-                                    dialog_dec10
+                                    dialog_dec10,
+                                    dialog_print,
 };
 
 

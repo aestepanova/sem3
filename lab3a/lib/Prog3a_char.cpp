@@ -1,9 +1,11 @@
-#include "bigNumber.h"
+#include "bigNum_char.h"
 #include <cstdio>
 #include <iostream>
+#include <cstring>
 
 
-namespace Prog3a {
+
+namespace Prog3a_char {
 
     bigDecNum::bigDecNum()
     {
@@ -35,13 +37,15 @@ namespace Prog3a {
 
     //конструирование большого числа из строки
     bigDecNum::bigDecNum(const char* str) {
-            Set(str);
+        Set(str);
     }
 
     bigDecNum& bigDecNum::Set(const char* str){
-        std::string STR = str;
+
+        if (str == nullptr)
+            throw "Nullptr";
         //определяем длину строки
-        int l = STR.std::string::length();
+        int l = strlen(str);
         if (l>SZ+1) throw std::invalid_argument("Too many chars!");
         n = l;
         if (str[0] == '-'){
@@ -51,8 +55,8 @@ namespace Prog3a {
         else Num[0] = 0;
 
         //проверка, есть ли в строке нецифровые символы
-        int pr1 = STR.std::string::find_first_not_of("-0123456789");
-        if (pr1 >= 0) {
+        int pr1 = digit_plus(str);
+        if (pr1 == 0) {
             Num[0] = 0;
             throw std::invalid_argument("Incorrect data. Your can only have 0-9 chars");
         }
@@ -105,6 +109,9 @@ namespace Prog3a {
         a.Num[0] = Num[0];
         return a;
     }
+
+
+
     bool bigDecNum::Large(const bigDecNum& t) const {
         if (n > t.n) return true;
         if (t.n > n) return false;
@@ -160,7 +167,7 @@ namespace Prog3a {
             std::cout << msg.what() << std::endl;
             return s1;
         }
-   }
+    }
 
     bigDecNum bigDecNum::Subtraction(bigDecNum t) const{
         bigDecNum s2 = t, s1 = *this;
@@ -201,16 +208,41 @@ namespace Prog3a {
     }
 
     bigDecNum bigDecNum::InputStr() const{
-        const char* ptr = "";
-        std::string ss;
-        std::cin >> ss;
-        if (ss.std::string::length() > SZ + 1)
-            throw std::runtime_error("Overflow!");
-        ptr = ss.c_str();
-        std::cin.clear();
-        bigDecNum decNum(ptr);
-        std::cout<<std::endl;
-        return decNum;
+        try {
+            char* ptr = (char*)malloc(1);
+            *ptr = '\0';
+            char buf[81];
+            int n;
+            int len = 0;
+            do
+            {
+                n = scanf("%80[^\n]", buf, 81);
+                if (n < 0)
+                {
+                    free(ptr);
+                    ptr = nullptr;
+                    continue;
+                }
+                if (n == 0)
+                    scanf("%*c");
+                else
+                {
+                    len += strlen(buf);
+                    ptr = (char*)realloc(ptr, len + 1);
+                    strcat_s(ptr, len + 1, buf);
+                }
+            } while (n > 0);
+            if (strlen(ptr) > SZ + 1) {
+                std::cout << "Overflow. You enter too big number" << std::endl;
+                return *this;
+            }
+            bigDecNum a(ptr);
+            return a;
+        }
+        catch (const std::exception& msg) {
+            std::cout << msg.what() << std::endl;
+        }
+        return *this;
     }
 
     void bigDecNum::Print() const{
@@ -242,6 +274,16 @@ namespace Prog3a {
         }
         i = Num[0] == 0 ? i : -i;
         return i;
+    }
+
+    int bigDecNum::digit_plus(const char *str) {
+        int l = strlen(str);
+        for (int i=1; i<l; i++){
+            if (!(isdigit(str[i]))){
+                return 0;
+            }
+        }
+        return 1;
     }
 
 

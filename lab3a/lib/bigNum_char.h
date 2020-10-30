@@ -1,3 +1,6 @@
+#ifndef LAB3A_BIGNUM_CHAR_H
+#define LAB3A_BIGNUM_CHAR_H
+
 #ifndef LAB3A_BIGNUMBER_H
 #define LAB3A_BIGNUMBER_H
 
@@ -6,7 +9,7 @@
 #include <iostream>
 #include <limits>
 
-namespace Prog3a {
+namespace Prog3a_char {
 
     class bigDecNum{
     private:
@@ -27,6 +30,7 @@ namespace Prog3a {
         bigDecNum InputStr() const;
         void Print() const;
         int ToInt() const;
+        int digit_plus(const char *);
     };
 
     inline int getInt(int& n, const int max=std::numeric_limits<int>::max()) { //for natural int
@@ -49,3 +53,6 @@ namespace Prog3a {
 
 
 #endif //LAB3A_BIGNUMBER_H
+
+
+#endif //LAB3A_BIGNUM_CHAR_H
