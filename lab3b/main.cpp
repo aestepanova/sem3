@@ -2,23 +2,6 @@
 
 using namespace Prog3b;
 
-const char *msgs[] = {" 0. Exit",
-                      " 1. Get add-code",
-                      " 2. Increase by 10 times",
-                      " 3. Decrease by 10 times",
-                      " 4. What is the number?"
-};
-
-const int NMsgs = sizeof(msgs) / sizeof(msgs[0]);
-
-int (*functions[])(bigDecNum &) = {nullptr,
-                                   dialog_getAddCode,
-                                   dialog_inc10,
-                                   dialog_dec10,
-                                   dialog_print,
-};
-
-
 int main() {
     bigDecNum first, second;
     int go=1;
@@ -42,25 +25,40 @@ int main() {
         std::cout << "a = " << first << std::endl;
         std::cout << "b = " << second << std::endl;
 
-        std::cout << "a + b = " << first+second << std::endl;
-        std::cout << "a - b = " << first-second << std::endl;
-
-
-        std::cout << "There are some operation with the first number --->" << std::endl;
-        int rc = 0;
-        while ((rc = dialog(msgs, NMsgs))) {
-            if (!functions[rc](first)) {
-                break;
-            }
+        try{
+            std::cout << "a + b = " << first+second << std::endl;
+            std::cout << "a - b = " << first-second << std::endl;
+            std::cout << "b - a = " << second-first << std::endl;
+        }
+        catch (const std::exception &msg) {
+            std::cout << msg.what() << std::endl;
         }
 
-        std::cout << "There are some operation with the second number --->" << std::endl;
-        rc = 0;
-        while ((rc = dialog(msgs, NMsgs))) {
-            std::cout << std::endl;
-            if (!functions[rc](second))
-                break;
+        std::cout << std::endl;
+
+        try{
+            bigDecNum tmp1 = first;
+            std::cout << "Add code for number a: " << (~first) << std::endl;
+            std::cout << "Increase number a by 10 times: " << (first>>=1) << std::endl;
+            std::cout << "Decrease number a by 10 times: " << (tmp1<<=1) << std::endl;
         }
+        catch (const std::exception &msg) {
+            std::cout << msg.what() << std::endl;
+        }
+
+        std::cout << std::endl;
+
+        try{
+            std::cout << "Add code for number b: " << (~second) << std::endl;
+            bigDecNum tmp2=second;
+            std::cout << "Increase number b by 10 times: " << (second>>=1) << std::endl;
+            std::cout << "Decrease number b by 10 times: " << (tmp2<<=1) << std::endl;
+        }
+        catch (const std::exception &msg) {
+            std::cout << msg.what() << std::endl;
+        }
+
+        std::cout << std::endl;
         std::cout << "Enter 0 to exit or 1 to continue: ";
         std::cin >> go;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

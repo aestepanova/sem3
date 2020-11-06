@@ -6,15 +6,14 @@
 
 namespace Prog3b {
 
-    bigDecNum::bigDecNum()
-    {
+    bigDecNum::bigDecNum() {
         //знак +, все цифры - нули
-        for (char & i : Num) i = 0;
+        for (char &i : Num) i = 0;
         n = 1; //количество разрядов
     }
 
     //формирование из типа long int
-    bigDecNum::bigDecNum(long int x){
+    bigDecNum::bigDecNum(long int x) {
         //устанавливаем знак
         if (x < 0)
             Num[0] = 1;
@@ -35,23 +34,22 @@ namespace Prog3b {
     }
 
     //конструирование большого числа из строки
-    bigDecNum::bigDecNum(const char* str) {
+    bigDecNum::bigDecNum(const char *str) {
         Set(str);
     }
 
-    bigDecNum& bigDecNum::Set(const char* str){
+    bigDecNum &bigDecNum::Set(const char *str) {
 
         if (str == nullptr)
             throw "Nullptr";
         //определяем длину строки
         int l = strlen(str);
-        if (l>SZ+1) throw std::invalid_argument("Too many chars!");
+        if (l > SZ + 1) throw std::invalid_argument("Too many chars!");
         n = l;
-        if (str[0] == '-'){
+        if (str[0] == '-') {
             Num[0] = 1;
             n--;
-        }
-        else Num[0] = 0;
+        } else Num[0] = 0;
 
         //проверка, есть ли в строке нецифровые символы
         int pr1 = digit_plus(str);
@@ -79,7 +77,7 @@ namespace Prog3b {
 
         i = l - 1; //идем со старших разрядов
         for (int k = 1; k <= n; k++) {
-            Num[k] = str[i]-'0';
+            Num[k] = str[i] - '0';
             i--;
         }
 
@@ -91,7 +89,7 @@ namespace Prog3b {
     }
 
     //сравнение абсолютных значений чисел
-    bool bigDecNum::CompareAbs(const bigDecNum& t) const {
+    bool bigDecNum::CompareAbs(const bigDecNum &t) const {
         if (n > t.n) return true;
         if (t.n > n) return false;
         if (t.n == n) {
@@ -113,8 +111,7 @@ namespace Prog3b {
             if (pr && Num[i] != 0) {
                 a.Num[i] = 10 - Num[i];
                 pr = 0;
-            }
-            else if (!pr)
+            } else if (!pr)
                 a.Num[i] = 9 - Num[i];
         }
         a.n = n;
@@ -124,7 +121,7 @@ namespace Prog3b {
     }
 
     // перегрузка оператора сложения
-    bigDecNum operator +(const bigDecNum fir, const bigDecNum sec) {
+    bigDecNum operator+(const bigDecNum fir, const bigDecNum sec) {
         int dop = 0;
         bool index = (fir.Num[0] == sec.Num[0]);
         int j = fir.n >= sec.n ? fir.n : sec.n;
@@ -133,8 +130,7 @@ namespace Prog3b {
             if (s1.Num[i] + s2.Num[i] + dop < 10) {
                 s1.Num[i] = s1.Num[i] + s2.Num[i] + dop;
                 dop = 0;
-            }
-            else {
+            } else {
                 s1.Num[i] = s1.Num[i] + s2.Num[i] + dop - 10;
                 dop = 1;
             }
@@ -149,8 +145,7 @@ namespace Prog3b {
                 s1.n = 1;
                 return s1;
             }
-        }
-        else s1.Num[0] = fir.Num[0];
+        } else s1.Num[0] = fir.Num[0];
         s1 = ~s1;
         if (j < fir.SZ) j += 1;
         for (int i = j; i > 0; i--) {
@@ -163,7 +158,7 @@ namespace Prog3b {
     }
 
     // перегрузка оператора сравнения больше
-    bool bigDecNum::operator >(const bigDecNum& second) {
+    bool bigDecNum::operator>(const bigDecNum &second) {
         if (Num[0] == '1' && second.Num[0] == 0) return false;
         if (Num[0] == '0' && second.Num[0] == 1) return true;
         if (n > second.n) return true;
@@ -184,7 +179,7 @@ namespace Prog3b {
     }
 
     // перегрузка опреатора сравнения меньше
-    bool bigDecNum::operator <(const bigDecNum& second) {
+    bool bigDecNum::operator<(const bigDecNum &second) {
         if (Num[0] == 1 && second.Num[0] == 0) return true;
         if (Num[0] == 0 && second.Num[0] == 1) return false;
         if (n < second.n) return true;
@@ -205,7 +200,7 @@ namespace Prog3b {
     }
 
     // перегрузка оператора сравнивания
-    bool bigDecNum::operator ==(const bigDecNum& first) {
+    bool bigDecNum::operator==(const bigDecNum &first) {
         if (n != first.n) return false;
         if (first.n == n && Num[0] == first.Num[0]) {
             for (int i = n; i >= 0; i--) {
@@ -217,7 +212,7 @@ namespace Prog3b {
     }
 
     // сдвиг влево на pr разрядов с присваиванием (увеличение числа)
-    bigDecNum bigDecNum::operator >>=(int pr) {
+    bigDecNum bigDecNum::operator>>=(int pr) {
         if (n == 1 && Num[1] == 0) {
             n = 1;
             return *this;
@@ -230,8 +225,9 @@ namespace Prog3b {
         n = n + pr;
         return *this;
     }
+
     // сдвиг вправо на pr разрядов с присваиванием (уменьшение числа)
-    bigDecNum& bigDecNum::operator <<=(int pr) {
+    bigDecNum &bigDecNum::operator<<=(int pr) {
         if (n - pr <= 0) {
             for (int i = 0; i <= n; i++) {
                 Num[i] = 0;
@@ -239,34 +235,31 @@ namespace Prog3b {
             n = 1;
             return *this;
         }
-        for (int i = 1; i <= n; i++) Num[i] = Num[i+pr];
+        for (int i = 1; i <= n; i++) Num[i] = Num[i + pr];
         n = n - pr;
         return *this;
     }
 
     // перегрузка оператора ввода
-    std::istream& operator >>(std::istream& s, bigDecNum& t) {
+    std::istream &operator>>(std::istream &s, bigDecNum &t) {
         try {
-            char* ptr = (char*)malloc(1);
+            char *ptr = (char *) malloc(1);
             *ptr = '\0';
             char buf[81];
             int n;
             int len = 0;
-            do
-            {
+            do {
                 n = scanf("%80[^\n]", buf, 81);
-                if (n < 0)
-                {
+                if (n < 0) {
                     free(ptr);
                     ptr = nullptr;
                     continue;
                 }
                 if (n == 0)
                     scanf("%*c");
-                else
-                {
+                else {
                     len += strlen(buf);
-                    ptr = (char*)realloc(ptr, len + 1);
+                    ptr = (char *) realloc(ptr, len + 1);
                     strcat_s(ptr, len + 1, buf);
                 }
             } while (n > 0);
@@ -278,27 +271,29 @@ namespace Prog3b {
             t.Set(ptr);
         }
 
-        catch (const std::exception& msg) {
+        catch (const std::exception &msg) {
             std::cout << msg.what() << std::endl;
         }
         return s;
     }
 
     // перегрузка оператора вывода
-    std::ostream& operator <<(std::ostream& s, const bigDecNum& t) {
+    std::ostream &operator<<(std::ostream &s, const bigDecNum &t) {
         if (t.Num[0] == 1)
             s << "-";
         if (t.n == 1) {
-            if (t.Num[1] == 0) s << 0;
-        }
-        else {
-            for (int i = t.n; i >= 1; i--) {
-                int print = t.Num[i];
-                s << print;
+            if (t.Num[1] == 0){
+                s<<0;
+                return s;
             }
         }
+        for (int i = t.n; i >= 1; i--) {
+            int print = t.Num[i];
+            s << print;
+            }
         return s;
     }
+
     bigDecNum::operator int() const {
         int i = 0;
         int pow = 1;
@@ -315,16 +310,15 @@ namespace Prog3b {
     int bigDecNum::digit_plus(const char *str) {
         int l = strlen(str);
         //если первый символ минус, то проверяем символы, начиная со второго, в ином случае с первого
-        if (str[0] == '-'){
-            for (int i=1; i<l; i++){
-                if (!(isdigit(str[i]))){
+        if (str[0] == '-') {
+            for (int i = 1; i < l; i++) {
+                if (!(isdigit(str[i]))) {
                     return 0;
                 }
             }
-        }
-        else {
-            for (int i=0; i<l; i++){
-                if (!(isdigit(str[i]))){
+        } else {
+            for (int i = 0; i < l; i++) {
+                if (!(isdigit(str[i]))) {
                     return 0;
                 }
             }
@@ -341,66 +335,4 @@ namespace Prog3b {
         neg.n = n;
         return neg;
     }
-
-
-/// dialog functions
-
-    int dialog(const char *msgs[], int N) {
-        char *errmsg = "";
-        int rc;
-        int i, n;
-        do{
-            puts(errmsg);
-            errmsg = "You are wrong. Repeate, please!";
-            for(i = 0; i < N; ++i)
-                puts(msgs[i]);
-            puts("Make your choice: --> ");
-            n = getInt(rc);
-            if(n == 0)
-                rc = 0;
-        } while(rc < 0 || rc >= N);
-        return rc;
-    }
-
-    int dialog_getAddCode(bigDecNum &f) {
-
-        try {
-            std::cout<<"There is an add-code for your first num: " << ~f;
-        }
-        catch (std::exception& ex) {
-            std::cout << ex.what() << std::endl;
-        }
-
-        return 1;
-    }
-
-    int dialog_inc10(bigDecNum &f) {
-        try {
-            bigDecNum f1=f;
-            std::cout << "Received number: " << (f1>>=1);
-            std::cout << std::endl;
-        }
-        catch (const std::exception& msg) {
-            std::cout << msg.what() << std::endl;
-        }
-        return 1;
-    }
-
-    int dialog_dec10(bigDecNum &f) {
-        try {
-            bigDecNum f1=f;
-            std::cout << "Received number: " << (f1<<=1) << std::endl;
-        }
-        catch (const std::exception& msg) {
-            std::cout << msg.what() << std::endl;
-        }
-        return 1;
-    }
-
-    int dialog_print(bigDecNum &a){
-        std::cout << a;
-        return 1;
-    }
-///
-
 }
