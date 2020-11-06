@@ -33,7 +33,7 @@ namespace Prog3b {
         friend std::istream& operator >>(std::istream&, bigDecNum&);
         bool CompareAbs(const bigDecNum&) const;
         operator int() const;
-        static int digit_plus(const char *);
+        int digit_plus(const char *);
     };
 
 }
