@@ -121,7 +121,7 @@ namespace Prog3b {
     }
 
     // перегрузка оператора сложения
-    bigDecNum operator+(const bigDecNum fir, const bigDecNum sec) {
+    bigDecNum operator+(const bigDecNum& fir, const bigDecNum& sec) {
         int dop = 0;
         bool index = (fir.Num[0] == sec.Num[0]);
         int j = fir.n >= sec.n ? fir.n : sec.n;
@@ -158,53 +158,54 @@ namespace Prog3b {
     }
 
     // перегрузка оператора сравнения больше
-    bool bigDecNum::operator>(const bigDecNum &second) {
-        if (Num[0] == '1' && second.Num[0] == 0) return false;
-        if (Num[0] == '0' && second.Num[0] == 1) return true;
-        if (n > second.n) return true;
-        if (n < second.n) return false;
-        if (second.n == n && Num[0] == 0) {
-            for (int i = n; i >= 1; i--) {
-                if (Num[i] > second.Num[i]) return true;
-                if (second.Num[i] > Num[i]) return false;
+    bool operator > (const bigDecNum& first, const bigDecNum& second) {
+
+        if (first.Num[0] == '1' && second.Num[0] == 0) return false;
+        if (first.Num[0] == '0' && second.Num[0] == 1) return true;
+        if (first.n > second.n) return true;
+        if (first.n < second.n) return false;
+        if (second.n == first.n && first.Num[0] == 0) {
+            for (int i = first.n; i >= 1; i--) {
+                if (first.Num[i] > second.Num[i]) return true;
+                if (second.Num[i] > first.Num[i]) return false;
             }
         }
-        if (second.n == n && Num[0] == 1) {
-            for (int i = n; i >= 1; i--) {
-                if (Num[i] > second.Num[i]) return false;
-                if (second.Num[i] > Num[i]) return true;
+        if (second.n == first.n && first.Num[0] == 1) {
+            for (int i = first.n; i >= 1; i--) {
+                if (first.Num[i] > second.Num[i]) return false;
+                if (second.Num[i] > first.Num[i]) return true;
             }
         }
         return false;
     }
 
     // перегрузка опреатора сравнения меньше
-    bool bigDecNum::operator<(const bigDecNum &second) {
-        if (Num[0] == 1 && second.Num[0] == 0) return true;
-        if (Num[0] == 0 && second.Num[0] == 1) return false;
-        if (n < second.n) return true;
-        if (n > second.n) return false;
-        if (second.n == n && Num[0] == 0) {
-            for (int i = n; i >= 1; i--) {
-                if (Num[i] < second.Num[i]) return true;
-                if (second.Num[i] < Num[i]) return false;
+    bool operator<(const bigDecNum &first, const bigDecNum &second) {
+        if (first.Num[0] == 1 && second.Num[0] == 0) return true;
+        if (first.Num[0] == 0 && second.Num[0] == 1) return false;
+        if (first.n < second.n) return true;
+        if (first.n > second.n) return false;
+        if (second.n == first.n && first.Num[0] == 0) {
+            for (int i = first.n; i >= 1; i--) {
+                if (first.Num[i] < second.Num[i]) return true;
+                if (second.Num[i] < first.Num[i]) return false;
             }
         }
-        if (second.n == n && Num[0] == 1) {
-            for (int i = n; i >= 1; i--) {
-                if (Num[i] < second.Num[i]) return false;
-                if (second.Num[i] < Num[i]) return true;
+        if (second.n == first.n && first.Num[0] == 1) {
+            for (int i = first.n; i >= 1; i--) {
+                if (first.Num[i] < second.Num[i]) return false;
+                if (second.Num[i] < first.Num[i]) return true;
             }
         }
         return false;
     }
 
     // перегрузка оператора сравнивания
-    bool bigDecNum::operator==(const bigDecNum &first) {
-        if (n != first.n) return false;
-        if (first.n == n && Num[0] == first.Num[0]) {
-            for (int i = n; i >= 0; i--) {
-                if (Num[i] != first.Num[i]) return false;
+    bool operator==(const bigDecNum &first, const bigDecNum &second) {
+        if (first.n != second.n) return false;
+        if (first.n == second.n && first.Num[0] == second.Num[0]) {
+            for (int i = second.n; i >= 0; i--) {
+                if (first.Num[i] != second.Num[i]) return false;
             }
             return true;
         }
@@ -212,7 +213,7 @@ namespace Prog3b {
     }
 
     // сдвиг влево на pr разрядов с присваиванием (увеличение числа)
-    bigDecNum bigDecNum::operator>>=(int pr) {
+    bigDecNum& bigDecNum::operator>>=(int pr) {
         if (n == 1 && Num[1] == 0) {
             n = 1;
             return *this;

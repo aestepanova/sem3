@@ -22,9 +22,6 @@ int main() {
             std::cout << msg.what() << std::endl;
         }
 
-        std::cout << "a = " << first << std::endl;
-        std::cout << "b = " << second << std::endl;
-
         try{
             std::cout << "a + b = " << first+second << std::endl;
             std::cout << "a - b = " << first-second << std::endl;
@@ -37,10 +34,10 @@ int main() {
         std::cout << std::endl;
 
         try{
-            bigDecNum tmp1 = first;
+            std::cout << "a = " << first << std::endl;
             std::cout << "Add code for number a: " << (~first) << std::endl;
             std::cout << "Increase number a by 10 times: " << (first>>=1) << std::endl;
-            std::cout << "Decrease number a by 10 times: " << (tmp1<<=1) << std::endl;
+            std::cout << "Decrease number a by 10 times: " << (first<<=2) << std::endl;
         }
         catch (const std::exception &msg) {
             std::cout << msg.what() << std::endl;
@@ -49,10 +46,10 @@ int main() {
         std::cout << std::endl;
 
         try{
+            std::cout << "b = " << second << std::endl;
             std::cout << "Add code for number b: " << (~second) << std::endl;
-            bigDecNum tmp2=second;
             std::cout << "Increase number b by 10 times: " << (second>>=1) << std::endl;
-            std::cout << "Decrease number b by 10 times: " << (tmp2<<=1) << std::endl;
+            std::cout << "Decrease number b by 10 times: " << (second<<=2) << std::endl;
         }
         catch (const std::exception &msg) {
             std::cout << msg.what() << std::endl;

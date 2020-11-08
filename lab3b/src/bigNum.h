@@ -20,20 +20,20 @@ namespace Prog3b {
         bigDecNum(long int x);
         bigDecNum(const char* str);
         bigDecNum& Set(const char* str);
-        friend bigDecNum operator +(bigDecNum, bigDecNum);
+        friend bigDecNum operator +(const bigDecNum& first, const bigDecNum& second);
         friend bigDecNum operator -(const bigDecNum& first, const bigDecNum& second) { return first + (-second); };
         bigDecNum operator -() const;
         bigDecNum operator~() const;
         bigDecNum& operator <<=(int);
-        bigDecNum operator >>=(int);
-        bool operator >(const bigDecNum&);
-        bool operator <(const bigDecNum&);
-        bool operator ==(const bigDecNum&);
+        bigDecNum& operator >>=(int);
+        friend bool operator >(const bigDecNum&, const bigDecNum&); //перегрузка друзьями
+        friend bool operator <(const bigDecNum&, const bigDecNum&);
+        friend bool operator ==(const bigDecNum&, const bigDecNum&);
         friend std::ostream& operator <<(std::ostream&, const bigDecNum&);
         friend std::istream& operator >>(std::istream&, bigDecNum&);
         bool CompareAbs(const bigDecNum&) const;
         operator int() const;
-        int digit_plus(const char *);
+        int digit_plus(const char *); //реализовать как внешнюю функции
     };
 
 }
