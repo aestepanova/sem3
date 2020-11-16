@@ -6,7 +6,7 @@
 #include <iostream>
 #include <limits>
 
-namespace Prog3b {
+namespace Prog3c {
 
     class bigNum{
 
@@ -21,17 +21,18 @@ namespace Prog3b {
         bigNum(const char* str);
         bigNum& Set(const char* str);
         bigNum(bigNum&& t)  noexcept :n(t.n), Num(t.Num) { t.Num = nullptr; }
-        [[noreturn]] ~bigNum() { delete[]Num; }
+        ~bigNum() { delete[]Num; }
         bigNum(const bigNum&);
+
         friend bigNum operator +(const bigNum& first, const bigNum& second);
         friend bigNum operator -(const bigNum& first, const bigNum& second) { return first + (-second); };
-        bigNum operator -() const;
-        bigNum operator~() const;
+        const bigNum operator -() const;
+        bigNum operator ~() const;
         bigNum& operator =(const bigNum&);
         bigNum& operator =(bigNum&&) noexcept ;
         bigNum& operator <<=(int);
         bigNum& operator >>=(int);
-        friend bool operator >(const bigNum&, const bigNum&); //перегрузка друзьями
+        friend bool operator >(const bigNum&, const bigNum&);
         friend bool operator <(const bigNum&, const bigNum&);
         friend bool operator ==(const bigNum&, const bigNum&);
         friend std::ostream& operator <<(std::ostream&, const bigNum&);
@@ -40,7 +41,7 @@ namespace Prog3b {
         operator int() const;
         bigNum& resize(int, bool);
     };
-    int digit_plus(const char *); //реализовать как внешнюю функции
+    int digit_plus(const char *);
 }
 
 
