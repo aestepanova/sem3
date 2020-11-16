@@ -292,7 +292,6 @@ namespace Prog3c {
 
     std::istream& operator >>(std::istream& s, bigNum& t) {
         char ptr[100] = "";
-        int len = 0;
         s >> ptr;
         std::cin.clear();
         t.Set(ptr);

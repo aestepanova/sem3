@@ -11,8 +11,8 @@ namespace Prog3c {
     class bigNum{
 
     private:
-        static const int SZ = 50;
-        char *Num;
+        static const int SZ = 47;
+        char* Num;
         int n; //кол-во разрядов
 
     public:
