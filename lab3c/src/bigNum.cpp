@@ -2,12 +2,14 @@
 #include <iostream>
 
 namespace Prog3c {
+
     bigNum::bigNum() {
         Num = new char[2];
         n = 1;
         Num[0] = '0';
         Num[1] = '0';
     }
+
     bigNum::bigNum(long x) {
         long a = abs(x);
         n = 0;
@@ -26,11 +28,13 @@ namespace Prog3c {
             i++;
         }
     }
+
     bigNum::bigNum(const char* str) {
         Num = nullptr;
         n = 0;
         Set(str);
     }
+
     bigNum& bigNum::Set(const char* str) {
         std::string STR = str;
         int check = STR.std::string::find_first_not_of("-0123456789");
@@ -46,7 +50,7 @@ namespace Prog3c {
         if ((str[0] == '-' && str[1] == '0') || str[0] == '0') {
             while (str[i] == '0') {
                 i++;
-                z++;
+                z++; // подсчет лидирующих нулей
             }
             if (i == l) {
                 Num = new char[2];
@@ -70,6 +74,8 @@ namespace Prog3c {
         else Num[0] = '0';
         return *this;
     }
+
+    // копирующий конструктор
     bigNum::bigNum(const bigNum& t) {
 
         n = t.n;
@@ -77,6 +83,31 @@ namespace Prog3c {
         for (int i = 0; i < n + 1; i++)
             Num[i] = t.Num[i];
 
+    }
+
+    //оператор присваивания копированием
+    bigNum& bigNum::operator = (const bigNum& t) {
+        if (this->Num != t.Num) {
+            if (Num != nullptr)
+                delete[]Num;
+            if (t.n != 0) {
+                n = t.n;
+                Num = new char[t.n + 1];
+                for (int i = 0; i <= n; i++)
+                    Num[i] = t.Num[i];
+            }
+        }
+        return *this;
+    }
+    //оператор присваивания перемещением
+    bigNum& bigNum::operator = (bigNum&& t) noexcept {
+        if (Num != nullptr) {
+            delete[]Num;
+            Num = t.Num;
+            n = t.n;
+            t.Num = nullptr;
+        }
+        return*this;
     }
 
     //изменение мантиссы числа (flag = 1 - при сдвиге, flag = 0 при суммировании)
@@ -105,6 +136,7 @@ namespace Prog3c {
         return *this;
     }
 
+    // перегруженный оператор сложения
     bigNum operator +(const bigNum& first, const bigNum& second) {
         int transfer = 0;
         bool index = (first.Num[0] == second.Num[0]);
@@ -156,28 +188,6 @@ namespace Prog3c {
         }
         return s1;
     }
-    bigNum& bigNum::operator = (const bigNum& t) {
-        if (this->Num != t.Num) {
-            if (Num != nullptr)
-                delete[]Num;
-            if (t.n != 0) {
-                n = t.n;
-                Num = new char[t.n + 1];
-                for (int i = 0; i <= n; i++)
-                    Num[i] = t.Num[i];
-            }
-        }
-        return *this;
-    }
-    bigNum& bigNum::operator = (bigNum&& t) noexcept {
-        if (Num != nullptr) {
-            delete[]Num;
-            Num = t.Num;
-            n = t.n;
-            t.Num = nullptr;
-        }
-        return*this;
-    }
 
     // сдвиг вправо на pr разрядов с присваиванием (уменьшение числа)
     bigNum& bigNum::operator >>=(int pr) {
@@ -202,7 +212,7 @@ namespace Prog3c {
         return *this;
     }
 
-    //обратный код числа
+    // обратный код числа
     bigNum bigNum::operator~() const {
         bigNum a;
         if (Num[0] == '0') //если положительное число, то оставляем как есть
@@ -221,7 +231,8 @@ namespace Prog3c {
         a.Num[0] = Num[0];
         return a;
     }
-    //больше ли модуль первого числа?
+
+    // больше ли модуль первого числа?
     bool bigNum::compareAbs(const bigNum&second) const {
         if (n > second.n) return true;
         if (second.n > n) return false;
@@ -233,6 +244,8 @@ namespace Prog3c {
         }
         return false;
     }
+
+    // перегруженный оператор сравнения больше
     bool operator >(const bigNum& first, const bigNum& second) {
         if (first.Num[0] == '1' && second.Num[0] == '0') return false;
         if (first.Num[0] == '0' && second.Num[0] == '1') return true;
@@ -252,6 +265,8 @@ namespace Prog3c {
         }
         return false;
     }
+
+    // перегруженный оператор сравнения меньше
     bool operator <(const bigNum& first, const bigNum& second) {
         if (first.Num[0] == '1' && second.Num[0] == '0') return true;
         if (first.Num[0] == '0' && second.Num[0] == '1') return false;
@@ -271,6 +286,8 @@ namespace Prog3c {
         }
         return false;
     }
+
+    // перегруженный оператор сравнения равно
     bool operator ==(const bigNum& first, const bigNum& second) {
         if (first.n != second.n) return false;
         if (first.n == second.n && first.Num[0] == second.Num[0]) {
@@ -281,6 +298,8 @@ namespace Prog3c {
         }
         return false;
     }
+
+    // пперегрузка оператора минус - получение противоположного числа
     const bigNum bigNum::operator -() const {
         bigNum neg = *this;
         if ((n == 1 && Num[1] != '0') || (n != 1)) {
@@ -290,6 +309,7 @@ namespace Prog3c {
         return neg;
     }
 
+    // перегруженный оператор потокового ввода
     std::istream& operator >>(std::istream& s, bigNum& t) {
         char ptr[100] = "";
         s >> ptr;
@@ -297,6 +317,8 @@ namespace Prog3c {
         t.Set(ptr);
         return s;
     }
+
+    // перегруженный оператор потокового вывода
     std::ostream& operator <<(std::ostream& s, const bigNum& t) {
         if (t.Num[0] == '1')
             s << "-";
@@ -309,6 +331,7 @@ namespace Prog3c {
         return s;
     }
 
+    // оператор превращения большого числа нашего класса в тип int для тестов
     bigNum::operator int() const {
         int i = 0;
         int pow = 1;
