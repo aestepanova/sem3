@@ -25,7 +25,7 @@ namespace Prog3c {
         bigNum(const bigNum&);
 
         bigNum& operator =(const bigNum&);
-        bigNum& operator =(bigNum&&) noexcept;
+        bigNum& operator = (bigNum&&) noexcept;
 
         friend bigNum operator +(const bigNum& first, const bigNum& second);
         friend bigNum operator -(const bigNum& first, const bigNum& second) { return first + (-second); };
@@ -45,7 +45,8 @@ namespace Prog3c {
 
         bool compareAbs(const bigNum&) const;
         operator int() const;
-        bigNum& resize(int, bool);
+        bigNum& resizeSum(int);
+        bigNum& resizeShift(int);
     };
 
 }

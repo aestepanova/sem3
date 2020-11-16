@@ -89,7 +89,7 @@ namespace Prog3c {
     bigNum& bigNum::operator = (const bigNum& t) {
         if (this->Num != t.Num) {
             if (Num != nullptr)
-                delete[]Num;
+                delete[]Num; //разница квадратные и без
             if (t.n != 0) {
                 n = t.n;
                 Num = new char[t.n + 1];
@@ -110,29 +110,38 @@ namespace Prog3c {
         return*this;
     }
 
-    //изменение мантиссы числа (flag = 1 - при сдвиге, flag = 0 при суммировании)
-    bigNum& bigNum::resize(int amount, bool flag) {
+    //изменение мантиссы числа для суммы
+    bigNum& bigNum::resizeSum(int amount) {
         char* tmp = new char[n + 1];
         for (int i = 0; i <= n; i++) tmp[i] = Num[i];
         delete[] Num;
         Num = new char[amount + 1];
         Num[0] = tmp[0];
-        if (flag) {
-            if (amount > n) {
-                int pr = amount - n;
-                for (int i = n; i >= 1; i--) Num[i + pr] = tmp[i];
-                for (int i = 1; i <= pr; i++) Num[i] = '0';
-            }
-            if (amount < n) {
-                int pr = n - amount;
-                for (int i = n; i >= pr + 1; i--) Num[i - pr] = tmp[i];
-            }
-        } else {
-            for (int i = n; i >= 1; i--) Num[i] = tmp[i];
-            for (int i = amount; i > n; i--) Num[i] = '0';
+        for (int i = n; i >= 1; i--) Num[i] = tmp[i];
+        for (int i = amount; i > n; i--) Num[i] = '0';
+        n = amount;
+        delete[] tmp; //valgrind
+        return *this;
+    }
+
+    //изменение мантиссы числа при сдвигах
+    bigNum& bigNum::resizeShift(int amount) {
+        char* tmp = new char[n + 1];
+        for (int i = 0; i <= n; i++) tmp[i] = Num[i];
+        delete[] Num;
+        Num = new char[amount + 1];
+        Num[0] = tmp[0];
+        if (amount > n) {
+            int pr = amount - n;
+            for (int i = n; i >= 1; i--) Num[i + pr] = tmp[i];
+            for (int i = 1; i <= pr; i++) Num[i] = '0';
+        }
+        if (amount < n) {
+            int pr = n - amount;
+            for (int i = n; i >= pr + 1; i--) Num[i - pr] = tmp[i];
         }
         n = amount;
-        delete[] tmp;
+        delete[] tmp; //valgrind
         return *this;
     }
 
@@ -143,12 +152,12 @@ namespace Prog3c {
         int j = first.n >= second.n ? first.n : second.n; //определение порядка суммы
         bigNum s1 = first, s2 = second;
         if (j + 1 < first.SZ) {
-            s1.resize(j + 1, false), s2.resize(j + 1, false);
+            s1.resizeSum(j + 1), s2.resizeSum(j + 1);
             j++;
         }
         else {
-            if (s1.n < first.SZ) s1.resize(j, false);
-            else s2.resize(j, false);
+            if (s1.n < first.SZ) s1.resizeSum(j);
+            else s2.resizeSum(j);
         }
         s1 = ~s1, s2 = ~s2; //получение обратного кода числа
         for (int i = 0; i <= j; i++) {
@@ -199,7 +208,7 @@ namespace Prog3c {
             n = 1;
             return *this;
         }
-        this->resize(n - pr, true);
+        this->resizeShift(n - pr);
         return *this;
     }
 
@@ -208,7 +217,7 @@ namespace Prog3c {
         if (n == 1 && Num[1] == '0') {
             return *this;
         }
-        this->resize(n + pr, true);
+        this->resizeShift(n + pr);
         return *this;
     }
 
