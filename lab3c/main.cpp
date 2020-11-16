@@ -1,4 +1,4 @@
-#include "src/bigNum.h"
+#include "src/bigNum.cpp"
 
 using namespace Prog3c;
 

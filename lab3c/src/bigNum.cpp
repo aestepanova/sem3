@@ -8,8 +8,8 @@ namespace Prog3c {
         Num[0] = '0';
         Num[1] = '0';
     }
-    bigNum::bigNum(long int x) {
-        long int a = abs(x);
+    bigNum::bigNum(long x) {
+        long a = abs(x);
         n = 0;
         while (a) {
             ++n;
@@ -35,7 +35,7 @@ namespace Prog3c {
         std::string STR = str;
         int check = STR.std::string::find_first_not_of("-0123456789");
         if (check >= 0) {
-            throw std::runtime_error("Incorrect data");
+            throw std::runtime_error("Incorrect data. Your can only have 0-9 chars");
         }
         int l = STR.std::string::length();
         n = l;
@@ -50,8 +50,8 @@ namespace Prog3c {
             }
             if (i == l) {
                 Num = new char[2];
-                Num[0] = '0';
                 n = 1;
+                Num[0] = '0';
                 Num[1] = '0';
                 return *this;
             }
@@ -71,20 +71,15 @@ namespace Prog3c {
         return *this;
     }
     bigNum::bigNum(const bigNum& t) {
-        try {
-            n = t.n;
-            Num = new char[n + 1];
-            for (int i = 0; i < n + 1; i++)
-                Num[i] = t.Num[i];
-        }
-        catch (...) {
-            std::cout << "Empty initialization";
-            n = 1;
-            Num = new char[2];
-            Num[0] = Num[1] = '0';
-        }
+
+        n = t.n;
+        Num = new char[n + 1];
+        for (int i = 0; i < n + 1; i++)
+            Num[i] = t.Num[i];
+
     }
 
+    //изменение мантиссы числа (flag = 1 - при сдвиге, flag = 0 при суммировании)
     bigNum& bigNum::resize(int amount, bool flag) {
         char* tmp = new char[n + 1];
         for (int i = 0; i <= n; i++) tmp[i] = Num[i];
@@ -101,8 +96,7 @@ namespace Prog3c {
                 int pr = n - amount;
                 for (int i = n; i >= pr + 1; i--) Num[i - pr] = tmp[i];
             }
-        }
-        if (!flag) {
+        } else {
             for (int i = n; i >= 1; i--) Num[i] = tmp[i];
             for (int i = amount; i > n; i--) Num[i] = '0';
         }
@@ -110,42 +104,44 @@ namespace Prog3c {
         delete[] tmp;
         return *this;
     }
-    bigNum operator +(const bigNum& fir, const bigNum& sec) {
-        int dop = 0;
-        bool index = (fir.Num[0] == sec.Num[0]);
-        int j = fir.n >= sec.n ? fir.n : sec.n;
-        bigNum s1 = fir, s2 = sec;
-        if (!(j + 1 >= fir.SZ)) {
+
+    bigNum operator +(const bigNum& first, const bigNum& second) {
+        int transfer = 0;
+        bool index = (first.Num[0] == second.Num[0]);
+        int j = first.n >= second.n ? first.n : second.n; //определение порядка суммы
+        bigNum s1 = first, s2 = second;
+        if (j + 1 < first.SZ) {
             s1.resize(j + 1, false), s2.resize(j + 1, false);
             j++;
         }
         else {
-            if (s1.n < fir.SZ)s1.resize(j, false);
+            if (s1.n < first.SZ) s1.resize(j, false);
             else s2.resize(j, false);
         }
-        s1 = ~s1, s2 = ~s2;
+        s1 = ~s1, s2 = ~s2; //получение обратного кода числа
         for (int i = 0; i <= j; i++) {
-            if (s1.Num[i] - '0' + s2.Num[i] - '0' + dop < 10) {
-                s1.Num[i] = s1.Num[i] - '0' + s2.Num[i] - '0' + dop + '0';
-                dop = 0;
+            if (s1.Num[i] - '0' + s2.Num[i] - '0' + transfer < 10) {
+                s1.Num[i] = s1.Num[i] - '0' + s2.Num[i] - '0' + transfer + '0';
+                transfer = 0;
             }
             else {
-                s1.Num[i] = s1.Num[i] - '0' + s2.Num[i] - '0' + dop - 10 + '0';
-                dop = 1;
+                s1.Num[i] = s1.Num[i] - '0' + s2.Num[i] - '0' + transfer - 10 + '0';
+                transfer = 1;
             }
         }
         if (!index) {
-            if (fir.CompareAbs(sec)) s1.Num[0] = fir.Num[0];
-            else if (sec.CompareAbs(fir)) s1.Num[0] = sec.Num[0];
-            else {
+            if (first.compareAbs(second)) s1.Num[0] = first.Num[0];
+            else if (second.compareAbs(first)) s1.Num[0] = second.Num[0];
+            else { //если модули чисел равны, то возвращаем ноль нашего класса
                 s1.Num[0] = '0';
                 s1.n = 1;
                 return s1;
             }
         }
-        else s1.Num[0] = fir.Num[0];
+        else s1.Num[0] = first.Num[0];
+
         s1 = ~s1;
-        if (!(j < fir.SZ)) j -= 1;
+
         for (int i = j; i > 0; i--) {
             if (s1.Num[i] != '0') {
                 char* tmp = new char[i + 1];
@@ -171,7 +167,7 @@ namespace Prog3c {
                     Num[i] = t.Num[i];
             }
         }
-        return*this;
+        return *this;
     }
     bigNum& bigNum::operator = (bigNum&& t) noexcept {
         if (Num != nullptr) {
@@ -205,31 +201,34 @@ namespace Prog3c {
         this->resize(n + pr, true);
         return *this;
     }
+
+    //обратный код числа
     bigNum bigNum::operator~() const {
         bigNum a;
-        if (Num[0] == '0')
+        if (Num[0] == '0') //если положительное число, то оставляем как есть
             return *this;
-        int pr = 1;
+        int f = 1; // флаг для первого вычитания из 10
         a.Num = new char[n + 1];
         for (int i = 1; i <= n; i++) {
-            if (pr && Num[i] != '0') {
+            if (f && Num[i] != '0') {
                 a.Num[i] = 10 - (Num[i] - '0') + '0';
-                pr = 0;
+                f = 0;
             }
-            else if (!pr)
+            else if (!f)
                 a.Num[i] = 9 - (Num[i] - '0') + '0';
         }
         a.n = n;
         a.Num[0] = Num[0];
         return a;
     }
-    bool bigNum::CompareAbs(const bigNum& t) const {
-        if (n > t.n) return true;
-        if (t.n > n) return false;
-        if (t.n == n) {
+    //больше ли модуль первого числа?
+    bool bigNum::compareAbs(const bigNum&second) const {
+        if (n > second.n) return true;
+        if (second.n > n) return false;
+        if (second.n == n) {
             for (int i = n; i >= 1; i--) {
-                if (Num[i] > t.Num[i]) return true;
-                if (t.Num[i] > Num[i]) return false;
+                if (Num[i] > second.Num[i]) return true;
+                if (second.Num[i] > Num[i]) return false;
             }
         }
         return false;
@@ -290,6 +289,7 @@ namespace Prog3c {
         neg.n = n;
         return neg;
     }
+
     std::istream& operator >>(std::istream& s, bigNum& t) {
         char ptr[100] = "";
         int len = 0;
@@ -309,6 +309,7 @@ namespace Prog3c {
         }
         return s;
     }
+
     bigNum::operator int() const {
         int i = 0;
         int pow = 1;
