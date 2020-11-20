@@ -1,42 +1,35 @@
-#include <iosfwd>
-#ifndef __HEX_NUMBER_H__
-#define __HEX_NUMBER_H__
+#ifndef HEX_H
+#define HEX_H
+#include <iostream>
 
-namespace Prog3 {
-    class HexNumber
-    {
+namespace H16_3 {
+    class Hex {
     private:
-        static const int MAX_LEN = 32;
-        char hex[MAX_LEN];
-        int length;//длина введённого пользователем символьного массива
+        int length;
+        char* number;
     public:
-        HexNumber();
-        HexNumber(const char* str);
-        HexNumber(const long  a);
-        HexNumber(const HexNumber& number);
-
-        HexNumber& operator= (const HexNumber& num);
-
-        char getSign()const { return hex[0] ;};
-
-        std::ostream& output(std::ostream& o) const;
-        std::istream& input(std::istream& i);
-
-        HexNumber& setN( const char* str);
-        HexNumber& Convert();
-        HexNumber& Add(const HexNumber& num);
-        HexNumber& Sub(const HexNumber& num);
-
-        HexNumber& moveRight(int a);
-        HexNumber& moveLeft(int a);
-
-        char Compare(const HexNumber& num) const;//сравнение
-        int Parity() const;//чётность
+        Hex();
+        Hex(const char*, int);
+        Hex(const int);
+        Hex(const Hex&);
+        Hex(Hex &&);
+        ~Hex();
+        void Formate(int);
+        char getSign() const{ return number[0]; }
+        unsigned char Check() const;
+        Hex& Convert();
+        char Compare(const Hex&) const;
+        Hex operator +(const Hex&) const;
+        Hex operator -(const Hex&) const;
+        Hex& operator <<=(int);
+        Hex& operator >>=(int);
+        Hex& operator =(const Hex&);
+        Hex& operator =(Hex&&);
+        friend std::istream& operator >>(std::istream&, Hex&);
+        friend std::ostream& operator <<(std::ostream&, const Hex&);
     };
-    void out(const HexNumber& op1, const HexNumber& op2, const HexNumber& res, const char*);
-    void dialog(HexNumber&, HexNumber&);
-    int CharToHex(char num);
-    char HexToChar(int num);
-
-}//namespace Prog3
-#endif /*!__HEX_NUMBER_H */
+    char upper(const char);
+    char HexToChar(int);
+    int CharToHex(char);
+}
+#endif

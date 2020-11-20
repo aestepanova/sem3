@@ -2,57 +2,57 @@
 #include <cstdio>
 #include <malloc.h>
 #include <iostream>
+#include <cstring>
 #include "HexNumber.h"
 
 namespace Stack1 {
-    using namespace Prog3;
+    using namespace H16_3;
     class Stack {
-        HexNumber* number;
+        Hex* number;
         int SZ;
         int ptr;
     public:
         Stack(int size) {
             SZ = size;
-            number = (HexNumber*)malloc(SZ * sizeof(HexNumber));
+            number = (Hex*)malloc(SZ * sizeof(Hex));
             ptr = 0;
         };
         ~Stack() {
             free(number);
         };
-        HexNumber pop(void) {
-            if (ptr)
-                return number[--ptr];
+        Hex pop(void) {
+            if (ptr){
+                return number[--ptr];}
             else {
-                HexNumber a;
+                Hex a;
                 return a;
             }
         };
         void push(const char* str) {
             if (ptr >= SZ - 1) {
                 SZ++;
-                number = (HexNumber*)realloc(number, SZ * sizeof(HexNumber));
+                number = (Hex*)realloc(number, SZ * sizeof(Hex));
             }
             try {
-                number[ptr++].setN(str);
+                number[ptr++] = Hex(str, strlen(str));
             }
             catch (const std::exception& msg) {
 
                 std::cout << msg.what() << std::endl;
             }
         };
-        void push1(HexNumber x) {
+        void push1(Hex x) {
             if (ptr >= SZ - 1) {
                 SZ++;
-                number = (HexNumber*)realloc(number, SZ * sizeof(HexNumber));
+                number = (Hex*)realloc(number, SZ * sizeof(Hex));
             }
             number[ptr++] = x;
         };
-        int empty() {
-            return (ptr == 0);
-        }
-        int PrinstStack() {
-            std::cout << number;
+
+        int printStack() {
+            std::cout << *number;
             return 0;
         }
+
     };
 }
