@@ -30,13 +30,6 @@ Suite &Suite::setCost(int t) {
     return *this;
 }
 
-Suite &Suite::setCurFree(int t) {
-
-    this->curFree = t;
-
-    return *this;
-}
-
 Suite &Suite::setNumGuests(int t) {
 
     this->numGuests = t;

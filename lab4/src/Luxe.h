@@ -1,31 +1,31 @@
 #ifndef LAB4_LUXE_H
 #define LAB4_LUXE_H
 
+#include <utility>
+
 #include "Guest.h"
-#include "Suite.h"
+#include "Unary.h"
 
 using namespace std;
 
 namespace lab4 {
-    class Luxe : public Suite {
+#define L_COST 15000
+    class Luxe : public Unary {
     private:
-        Guest guestMaster;
         int rooms;
-        int guests;
-
     public:
-        Luxe() : Suite("Luxe"), guestMaster(), rooms(2), guests(0) {};
+        Luxe() : Unary("Luxe"), rooms(2){};
 
-        Luxe(string type, int num, int busy, int cost, int cur, Guest gue, int rooms, int guests) :
-                Suite(std::move(type), num, busy, cost, cur, guests), guestMaster(std::move(gue)), rooms(rooms) {};
+        Luxe(string type, int num, int busy, Guest gue, int rooms, int guests) :
+                Unary(std::move(type), num, busy, L_COST, std::move(gue)), rooms(rooms) {};
 
         void showInfo() override;
 
-        void registerG(Guest &gue, string &type);
+        void registerG() override;
 
-        void unregisterG(Guest &gue, string &type);
+        void unregisterG() override;
 
-        ~Luxe() override = default;
+        ~Luxe() override= default;;
     };
 }
 

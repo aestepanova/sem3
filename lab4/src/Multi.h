@@ -8,6 +8,7 @@
 using namespace std;
 
 namespace lab4 {
+#define M_COST 3000
     class Multi : public Suite {
     private:
         int beds;
@@ -15,13 +16,13 @@ namespace lab4 {
         vector<Guest> guests;
 
     public:
-        Multi() : Suite("Multi"), beds(2) {
+        Multi() : Suite("Multi"), beds(2), current(0) {
             guests.resize(1);
             guests[0] = Guest();
         };
 
-        Multi(string type, int num, int busy, int cost, int cur, vector<Guest>& gue, int beds, int current ) :
-                Suite(std::move(type), num, busy, cost, cur, current), beds(beds), current(current) {
+        Multi(string type, int num, int busy, vector<Guest>& gue, int beds, int current ) :
+                Suite(std::move(type), num, busy, M_COST, current), beds(beds), current(current) {
             guests.resize(gue.size());
             for (int i = 0; i < gue.size(); i++ ){
                 guests[i] = gue[i];
@@ -30,11 +31,11 @@ namespace lab4 {
 
         void showInfo() override;
 
-        void registerG(Guest &gue, string &type);
+        void registerG() override;
 
-        void unregisterG(Guest &gue, string &type);
+        void unregisterG() override;
 
-        ~Multi() override = default;
+        ~Multi() override = default;;
     };
 }
 

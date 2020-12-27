@@ -1,27 +1,25 @@
-//
-// Created by user on 11.12.2020.
-//
-
 #include "Table.h"
 
-int add(int code, lab4::Suite *suite) {
 
+int lab4::Table::add(lab4::Suite* suite) {
 
-}
+    a = &&suite;
 
-int lab4::Table::add(int code, lab4::Suite *suite) {
     return 0;
 }
+/*
+int Table::del(int num) {
 
-int lab4::Table::del(int code, int num) {
     return 0;
-}
+}*/
 
-lab4::Item *lab4::Table::find(int code, int num) {
+lab4::Suite *lab4::Table::find(int num) {
     return nullptr;
 }
 
-void lab4::Table::show() {
+//int Table::show() {
+//    return 0;
+//}
 
-}
+
 
