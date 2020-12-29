@@ -31,7 +31,7 @@ namespace lab4 {
     public:
         [[nodiscard]] string getType() const { return type;}
         [[nodiscard]] int getNumber() const { return number;}
-        [[nodiscard]] int isFree() const { return (busy>0) ? 1:0; }
+        [[nodiscard]] int isFree() const { return (busy>0) ? 0:1; }
         [[nodiscard]] int getCost() const { return cost;}
         [[nodiscard]] int getNumGuests() const { return numGuests;};
 

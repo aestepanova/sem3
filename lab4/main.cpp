@@ -1,14 +1,30 @@
-#include <iostream>
-#include "src/Suite.cpp"
+#include "src/Table.h"
 
 using namespace lab4;
 
+const char *msgs[] = {"\t 0. Exit",
+                      "\t 1. Register",
+                      "\t 2. Unregister",
+                      "\t 3. Show info about suite",
+                      "\t 4. Show full table"
+};
+
+const int NMsgs = sizeof(msgs) / sizeof(msgs[0]);
+
+int (*functions[])(Table& Tab) = {nullptr,
+                                   dialog_add,
+                                   dialog_del,
+                                   dialog_find,
+                                   dialog_show,
+};
+
 int main() {
-
-    Date d(2, 10, 1970);
-    d.print();
-    Guest g(d,15, "Ivan");
-
-    g.print();
+    Table Tab = Table();
+    int rc = 0;
+    while ((rc = dialog(msgs, NMsgs))) {
+        if (!functions[rc](reinterpret_cast<Table &>(Tab))) {
+            break;
+        }
+    }
     return 0;
 }

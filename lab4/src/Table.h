@@ -7,6 +7,7 @@
 #include "Multi.h"
 #include <vector>
 
+#define LINE "-------------------"
 namespace lab4 {
 
     class Table {
@@ -14,8 +15,8 @@ namespace lab4 {
         vector<Suite *> el;
 
     public:
-        Table()= default;;
-
+        Table()= default;
+        int h(int k, int i) { return (k % 221 + i) % 221; };
         void add(Suite *suite){
             el.push_back(static_cast<Suite*>(suite));
         }
@@ -59,13 +60,14 @@ namespace lab4 {
         }
 
         void show(){
+            cout << endl << LINE << endl;
             if (!(el.empty())){
                 for (int i = 0; i < this->el.size(); i++) {
                     el[i]->showInfo();
-                    cout<< "\n------------------------------\n";
+                    cout<< endl << LINE << endl;
                 }
             }else{
-                cout << "Table is empty\n";
+                cout << "Table is empty\n" << LINE << endl;
             }
         };
     };
@@ -81,33 +83,32 @@ namespace lab4 {
 
     int dialog_add(lab4::Table &Tab) {
         Suite *s = nullptr;
-        int t=0;
+        int t=0, f;
         cout << "What type of suite do you want?"<<endl;
         cout << "1. Unary\n2. Luxe\n3. Multi" << endl;
         getInt(t);
+        int i = 0, k = 0, j =1;
+        do {
+            j = Tab.h(k, i)+1;
+            f = Tab.find_num(j);
+            if (f) i++;
+        } while (f);
         switch (t) {
             case 1:
                 try{
                     s = new Unary();
+                    s->setNumber(j);
                     s->setType("Unary");
                     s->registerG();
                     s->setBusy(1);
                     s->setNumGuests(1);
-                    cout << "What number do you want?\n";
-                    int a;
-                    getInt(a);
-                    if (!Tab.find_num(a)){
-                        s->setNumber(a);
-                    }else{
-                        cout << "This number is busy. Try again\n";
-                    }
-
                 }
                 catch (...){};
                 break;
             case 2:
                 try{
                     s = new Luxe();
+                    s->setNumber(j);
                     s->setType("Luxe");
                     s->registerG();
                     s->setBusy(1);
@@ -138,7 +139,12 @@ namespace lab4 {
         int num;
         cout << "Enter your number of suite ---> " << endl;
         getInt(num);
-        Tab.find(num)->showInfo();
+        cout << endl << LINE << endl;
+        Suite* s;
+        s = Tab.find(num);
+        if (s){
+            s->showInfo();
+        }
         return 1;
     }
 

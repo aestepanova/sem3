@@ -12,7 +12,7 @@ namespace lab4{
     #define U_COST 5000
 
     class Unary : public Suite {
-    private:
+    protected:
         Guest guest;
     public:
         Unary() : Suite("Unary"), guest(){};
