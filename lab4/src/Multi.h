@@ -13,27 +13,30 @@ namespace lab4 {
     private:
         int beds; // всего мест
         int current; // занято на данный момент
-        vector<Guest> guests;
+        vector<Guest*> guests;
 
     public:
-        Multi() : Suite("Multi"), beds(2), current(0) {
-            guests.resize(1);
-            guests[0] = Guest();
-        };
+        Multi() : Suite("Multi"), beds(2), current(0) {};
 
-        Multi(string type, int num, int busy, vector<Guest>& gue, int beds, int current ) :
+        Multi(string type, int num, int busy, vector<Guest*>& gue, int beds, int current ) :
                 Suite(std::move(type), num, busy, M_COST, current), beds(beds), current(current) {
             guests.resize(gue.size());
             for (int i = 0; i < gue.size(); i++ ){
                 guests[i] = gue[i];
             }
         };
-
+        void setBeds(int b){ this->beds = b;}
+        void setCurrent(int cur){ this->current=cur;}
         void showInfo() override;
 
         void registerG() override;
 
         void unregisterG() override;
+
+        void regG();
+        void unregG(const string& name);
+        Guest* findG(const string& name);
+        void showG();
 
         ~Multi() override = default;;
     };

@@ -133,7 +133,18 @@ namespace lab4 {
                 break;
             case 3:
                 s = new Multi();
+                do {
+                    t = MULTI;
+                    j = Tab.h(k, i)+1 + LUXE + MULTI;
+                    f = Tab.find_num(j);
+                    if (f) i++;
+                    t -= 1;
+                } while ((f)||(t==0));
+                s->setNumber(j);
                 s->setType("Multi");
+                s->setNumGuests(4)
+                s->registerG();
+                s->setBusy(1);
                 break;
             default:
                 break;
