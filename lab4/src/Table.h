@@ -8,6 +8,11 @@
 #include <vector>
 
 #define LINE "-------------------"
+#define UNARY 15
+#define LUXE 10
+#define MULTI 10
+// номера от 1 до 15 - одноместные, от 16 до 26 - люксы, 27-37 многоместные
+
 namespace lab4 {
 
     class Table {
@@ -16,7 +21,7 @@ namespace lab4 {
 
     public:
         Table()= default;
-        int h(int k, int i) { return (k % 221 + i) % 221; };
+        int h(int k, int i) { return (k % (UNARY + LUXE + MULTI) + i) % 221; };
         void add(Suite *suite){
             el.push_back(static_cast<Suite*>(suite));
         }
@@ -35,6 +40,7 @@ namespace lab4 {
             }
             return nullptr;
         };
+
         int find_num(int& num){
             if (!(el.empty())){
                 std::vector<Suite*>::iterator it;
@@ -53,7 +59,8 @@ namespace lab4 {
                 for (it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         (*(*it)).unregisterG();
-                        el.erase(it);
+                        if ((*(*it)).getType() != "Multi") el.erase(it); // delete unary or luxe
+                        if ((*(*it)).isFree() == 1) el.erase(it); // delete free multi
                     }
                 }
             }
@@ -87,16 +94,18 @@ namespace lab4 {
         cout << "What type of suite do you want?"<<endl;
         cout << "1. Unary\n2. Luxe\n3. Multi" << endl;
         getInt(t);
-        int i = 0, k = 0, j =1;
-        do {
-            j = Tab.h(k, i)+1;
-            f = Tab.find_num(j);
-            if (f) i++;
-        } while (f);
+        int i = 0, k = 0, j = 0;
         switch (t) {
             case 1:
                 try{
                     s = new Unary();
+                    do {
+                        t = UNARY;
+                        j = Tab.h(k, i)+1;
+                        f = Tab.find_num(j);
+                        if (f) i++;
+                        t -= 1;
+                    } while ((f)||(t==0));
                     s->setNumber(j);
                     s->setType("Unary");
                     s->registerG();
@@ -108,6 +117,13 @@ namespace lab4 {
             case 2:
                 try{
                     s = new Luxe();
+                    do {
+                        t = LUXE;
+                        j = Tab.h(k, i)+1 + LUXE;
+                        f = Tab.find_num(j);
+                        if (f) i++;
+                        t -= 1;
+                    } while ((f)||(t==0));
                     s->setNumber(j);
                     s->setType("Luxe");
                     s->registerG();

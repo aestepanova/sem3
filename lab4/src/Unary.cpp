@@ -15,7 +15,6 @@ void lab4::Unary::registerG() {
 }
 
 void lab4::Unary::unregisterG() {
-    this->setBusy(0);
     cout << this->guest.name <<", your accommodation bill: " << (this->guest.days)*(this->getCost()) << endl;
     cout << "Thank you for choosing our hotel, please come again!\n";
 }

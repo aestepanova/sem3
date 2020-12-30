@@ -11,8 +11,8 @@ namespace lab4 {
 #define M_COST 3000
     class Multi : public Suite {
     private:
-        int beds;
-        int current;
+        int beds; // всего мест
+        int current; // занято на данный момент
         vector<Guest> guests;
 
     public:
