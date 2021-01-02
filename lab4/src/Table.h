@@ -8,9 +8,9 @@
 #include <vector>
 
 #define LINE "-------------------"
-#define UNARY 15
-#define LUXE 10
-#define MULTI 10
+#define UNARY 1
+#define LUXE 1
+#define MULTI 2
 // номера от 1 до 15 - одноместные, от 16 до 26 - люксы, 27-37 многоместные
 
 namespace lab4 {
@@ -21,7 +21,7 @@ namespace lab4 {
 
     public:
         Table()= default;
-        int h(int k, int i) { return (k % (UNARY + LUXE + MULTI) + i) % 221; };
+        int h(int k, int i) { return (k % (UNARY + LUXE + MULTI) + i); };
         void add(Suite *suite){
             el.push_back(static_cast<Suite*>(suite));
         }
@@ -73,9 +73,11 @@ namespace lab4 {
                     el[i]->showInfo();
                     cout<< endl << LINE << endl;
                 }
+                cout << "There are " << UNARY+LUXE+MULTI - el.size() << " free suites!\n" << LINE << endl;
             }else{
-                cout << "Table is empty\n" << LINE << endl;
+                cout << "There are " << UNARY+LUXE+MULTI << " free suites!\n" << LINE << endl;
             }
+
         };
     };
 
@@ -90,7 +92,7 @@ namespace lab4 {
 
     int dialog_add(lab4::Table &Tab) {
         Suite *s = nullptr;
-        int t=0, f;
+        int t=0, f, flag=0;
         cout << "What type of suite do you want?"<<endl;
         cout << "1. Unary\n2. Luxe\n3. Multi" << endl;
         getInt(t);
@@ -99,12 +101,16 @@ namespace lab4 {
             case 1:
                 try{
                     s = new Unary();
+                    t = UNARY;
                     do {
-                        t = UNARY;
                         j = Tab.h(k, i)+1;
                         f = Tab.find_num(j);
                         if (f) i++;
                         t -= 1;
+                        if (!t){
+                            cout << "There are no free unary suites.\n";
+                            break;
+                        }
                     } while ((f)||(t==0));
                     s->setNumber(j);
                     s->setType("Unary");
@@ -117,9 +123,9 @@ namespace lab4 {
             case 2:
                 try{
                     s = new Luxe();
+                    t = LUXE;
                     do {
-                        t = LUXE;
-                        j = Tab.h(k, i)+1 + LUXE;
+                        j = Tab.h(k, i)+ 1 + UNARY;
                         f = Tab.find_num(j);
                         if (f) i++;
                         t -= 1;
@@ -133,24 +139,41 @@ namespace lab4 {
                 break;
             case 3:
                 s = new Multi();
+                t = MULTI;
                 do {
-                    t = MULTI;
-                    j = Tab.h(k, i)+1 + LUXE + MULTI;
+                    j = Tab.h(k, i)+ 1 + UNARY + LUXE;
                     f = Tab.find_num(j);
-                    if (f) i++;
+                    if (f){
+                        s = Tab.find(j);
+                        if ((s->getNumGuests()<4)){
+                            s->registerG();
+                            s->setNumGuests(s->getNumGuests()+1);
+                            flag = 1;
+                            break;
+                        }
+                        i++;
+                    }
                     t -= 1;
                 } while ((f)||(t==0));
-                s->setNumber(j);
-                s->setType("Multi");
-                s->setNumGuests(4)
-                s->registerG();
-                s->setBusy(1);
+                if (t == 0){
+                    cout << "There are no place in Multi suites. You can choose Unary or Luxe.\n";
+                    break;
+                }
+                if (!flag){
+                    s->setNumber(j);
+                    s->setType("Multi");
+                    s->setNumGuests(1);
+                    s->registerG();
+                    s->setBusy(1);
+                }
                 break;
             default:
                 break;
         }
-        Tab.add(s);
-        return 1;
+        if (!flag) {
+            Tab.add(s);
+            return 1;
+        }else return 2;
     }
 
     int dialog_del(lab4::Table &Tab) {

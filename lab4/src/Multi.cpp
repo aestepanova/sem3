@@ -11,20 +11,29 @@ void lab4::Multi::showInfo() {
 
 void lab4::Multi::unregisterG() {
     string gName;
-    cout << "What is your name?";
+    cout << "What is your name?\n";
     cin >> gName;
     Guest* g = findG(gName);
     if ( g != nullptr) {
-        cout << g->name <<", your accommodation bill: " << (g->days)*(this->getCost()) << endl;
+        cout << gName <<", your accommodation bill: " << (g->days)*(this->getCost()) << endl;
         this->current -= 1;
         this->unregG(gName);
         cout << "Thank you for choosing our hotel, come again!\n";
+    } else {
+        cout << "We haven't a guest with this name.\n";
     }
-
 }
 
 void lab4::Multi::registerG() {
-
+    if (this->guests.size() <= beds){
+        auto* g = new Guest;
+        g->reg();
+        this->guests.push_back(g);
+        cout << "Your number is [" << this->getNumber() << "]. Welcome to Ancho's Hotel!\n" << endl;
+    }
+    else {
+        cout << "This number hasn't free beds.\n";
+    }
 }
 
 lab4::Guest* lab4::Multi::findG(const string& name) {
@@ -32,7 +41,7 @@ lab4::Guest* lab4::Multi::findG(const string& name) {
             std::vector<Guest*>::iterator it;
             for(it = this->guests.begin(); it < this->guests.end(); it++) {
                 if (name == ((*it)->name)) {
-                    return *it;
+                    return (*it);
                 }
             }
         }
@@ -49,15 +58,9 @@ void lab4::Multi::showG() {
     }else{
         cout << "There is no guests.\n" << LINE << endl;
     }
+    cout << "/////////////////////////\n";
 }
 
-void lab4::Multi::regG() {
-
-    Guest g;
-    g.reg();
-    if (this->guests.size() <= beds;
-    cout << "Your number is [" << this->getNumber() << "]. Welcome to Ancho's Hotel!\n" << endl;
-}
 
 void lab4::Multi::unregG(const string& name) {
     Guest* g = this->findG(name);

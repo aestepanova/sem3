@@ -9,6 +9,7 @@ using namespace std;
 
 namespace lab4 {
 #define M_COST 3000
+#define BEDS 4
     class Multi : public Suite {
     private:
         int beds; // всего мест
@@ -16,7 +17,7 @@ namespace lab4 {
         vector<Guest*> guests;
 
     public:
-        Multi() : Suite("Multi"), beds(2), current(0) {};
+        Multi() : Suite("Multi"), beds(BEDS), current(0) {};
 
         Multi(string type, int num, int busy, vector<Guest*>& gue, int beds, int current ) :
                 Suite(std::move(type), num, busy, M_COST, current), beds(beds), current(current) {
@@ -30,10 +31,7 @@ namespace lab4 {
         void showInfo() override;
 
         void registerG() override;
-
         void unregisterG() override;
-
-        void regG();
         void unregG(const string& name);
         Guest* findG(const string& name);
         void showG();
