@@ -16,7 +16,7 @@ void lab4::Multi::unregisterG() {
     Guest* g = findG(gName);
     if ( g != nullptr) {
         cout << gName <<", your accommodation bill: " << (g->days)*(this->getCost()) << endl;
-        this->current -= 1;
+        this->setNumGuests(this->getNumGuests()-1);
         this->unregG(gName);
         cout << "Thank you for choosing our hotel, come again!\n";
     } else {
@@ -29,6 +29,8 @@ void lab4::Multi::registerG() {
         auto* g = new Guest;
         g->reg();
         this->guests.push_back(g);
+        int numG = this->getNumGuests();
+        this->Suite::setNumGuests(numG+1);
         cout << "Your number is [" << this->getNumber() << "]. Welcome to Ancho's Hotel!\n" << endl;
     }
     else {

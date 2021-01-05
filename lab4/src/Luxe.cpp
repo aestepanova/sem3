@@ -5,6 +5,7 @@ void lab4::Luxe::showInfo() {
     cout << "Number: [" << this->getNumber() << "]\n";
     int t = this->isFree();
     cout << ((t==1) ? "This number is free\n" : "This number is busy\n");
+    cout << "Rooms: " << this->getRooms() << endl;
     cout << "Number of guests: " << this->getNumGuests() << endl;
     cout << "Master guest -> \n";
     this->Unary::guest.print();
@@ -33,7 +34,7 @@ void lab4::Luxe::registerG() {
     do{
         cout << "How many rooms do you need?\n";
         if (getInt(r) != 0) cout << "Incorrect!\n";
-        if (r > 1 && (r <= 3)){
+        if (r >= 1 && (r <= 3)){
             this->setRooms(r);
         } else cout << "We cam offer you luxes up to 3 rooms\n";
     } while (r > 3 || (r <= 0));

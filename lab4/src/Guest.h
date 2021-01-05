@@ -48,7 +48,7 @@ namespace lab4{
         }
 
         void print() const{
-          std::cout << "date: " << day << "/" << month << "/" << year << endl << LINE << endl;
+          std::cout << "\tdate: " << day << "/" << month << "/" << year << endl << LINE << endl;
         }
 
     };
@@ -62,6 +62,8 @@ namespace lab4{
         Guest(Date d, int ds, std::string nm): regDate(d), days(ds), name(std::move(nm)){};
 
         void reg(){
+            time_t now = time(nullptr);
+            tm *ltm = localtime(&now);
             int f = 0;
             do{
                 cin.ignore(32767, '\n');
@@ -69,8 +71,11 @@ namespace lab4{
                 cin >> name;
                 cout << "How much days, " << "Mr/Mrs " << name <<", do you want to live in Ancho's Hotel?\n";
                 getInt(days);
-                cout << "When do you want to check in?\n";
-                regDate.set_date();
+                //cout << "When do you want to check in?\n";
+                //regDate.set_date();
+                regDate.day = ltm->tm_mday;
+                regDate.month =1 + ltm->tm_mon;
+                regDate.year = 1900 + ltm->tm_year;
                 cout << "Check your info: \n-----------------\n";
                 this->print();
                 cout << "If everything is right - enter 1, else - any key\n";
@@ -82,7 +87,7 @@ namespace lab4{
         };
 
         void print() const{
-            std::cout << "Guest: " << this->name << std::endl << "days: " << this->days << std::endl;
+            std::cout << "\tGuest: " << this->name << std::endl << "\tdays: " << this->days << std::endl;
             this->regDate.print();
         }
 

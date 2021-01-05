@@ -91,7 +91,7 @@ namespace lab4 {
     }
 
     int dialog_add(lab4::Table &Tab) {
-        Suite *s = nullptr;
+        Suite *s = nullptr, *tmp;
         int t=0, f, flag=0;
         cout << "What type of suite do you want?"<<endl;
         cout << "1. Unary\n2. Luxe\n3. Multi" << endl;
@@ -99,43 +99,46 @@ namespace lab4 {
         int i = 0, k = 0, j = 0;
         switch (t) {
             case 1:
-                try{
-                    s = new Unary();
-                    t = UNARY;
-                    do {
-                        j = Tab.h(k, i)+1;
-                        f = Tab.find_num(j);
-                        if (f) i++;
-                        t -= 1;
-                        if (!t){
-                            cout << "There are no free unary suites.\n";
-                            break;
-                        }
-                    } while ((f)||(t==0));
+                s = new Unary();
+                t = UNARY + 1;
+                do {
+                    j = Tab.h(k, i) + 1;
+                    f = Tab.find_num(j);
+                    if (f) i++;
+                    if (!t){
+                        cout << "There are no free unary suites.\n";
+                        flag = 1;
+                        break;
+                    }
+                    t -= 1;
+                } while ((f)||(t==0));
+                if (t){
                     s->setNumber(j);
                     s->setType("Unary");
                     s->registerG();
                     s->setBusy(1);
                     s->setNumGuests(1);
                 }
-                catch (...){};
                 break;
             case 2:
-                try{
-                    s = new Luxe();
-                    t = LUXE;
-                    do {
-                        j = Tab.h(k, i)+ 1 + UNARY;
-                        f = Tab.find_num(j);
-                        if (f) i++;
-                        t -= 1;
-                    } while ((f)||(t==0));
+                s = new Luxe();
+                t = LUXE;
+                do {
+                    j = Tab.h(k, i)+ 1 + UNARY;
+                    f = Tab.find_num(j);
+                    if (f) i++;
+                    t -= 1;
+                } while ((f)||(t==0));
+                if (!t){
+                    cout << "There are no free luxe suites.\n";
+                    flag = 1;
+                    break;
+                }else{
                     s->setNumber(j);
                     s->setType("Luxe");
                     s->registerG();
                     s->setBusy(1);
                 }
-                catch (...){}
                 break;
             case 3:
                 s = new Multi();
@@ -144,10 +147,9 @@ namespace lab4 {
                     j = Tab.h(k, i)+ 1 + UNARY + LUXE;
                     f = Tab.find_num(j);
                     if (f){
-                        s = Tab.find(j);
-                        if ((s->getNumGuests()<4)){
-                            s->registerG();
-                            s->setNumGuests(s->getNumGuests()+1);
+                        tmp = Tab.find(j);
+                        if ((tmp->getNumGuests()<4)){
+                            tmp->registerG();
                             flag = 1;
                             break;
                         }
@@ -162,7 +164,6 @@ namespace lab4 {
                 if (!flag){
                     s->setNumber(j);
                     s->setType("Multi");
-                    s->setNumGuests(1);
                     s->registerG();
                     s->setBusy(1);
                 }

@@ -18,6 +18,9 @@ namespace lab4 {
 
         Luxe(string type, int num, int busy, Guest gue, int rooms, int guests) :
                 Unary(std::move(type), num, busy, L_COST, std::move(gue)), rooms(rooms) {};
+
+        [[nodiscard]] int getRooms() const {return rooms;}
+
         void setRooms(int &r){ rooms = r;}
 
         void showInfo() override;
