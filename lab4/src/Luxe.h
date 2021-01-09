@@ -8,14 +8,15 @@ using namespace std;
 
 namespace lab4 {
 #define L_COST 15000
+    /// Описатель номера типа "Люкс", наследует состояние класса Unary
     class Luxe : public Unary {
     private:
         int rooms;
     public:
         Luxe() : Unary("Luxe", L_COST), rooms(2){};
 
-        Luxe(string type, int num, int busy, Guest gue, int rooms, int guests) :
-                Unary(std::move(type), num, busy, L_COST, std::move(gue), guests), rooms(rooms) {};
+        Luxe(string type, int num, int busy, Guest gue, int cost, int rooms, int guests) :
+                Unary(std::move(type), num, busy, cost, std::move(gue), guests), rooms(rooms) {};
 
         [[nodiscard]] int getRooms() const {return rooms;}
 

@@ -8,10 +8,7 @@
 
 using namespace std;
 namespace lab4 {
-    #define MAX_SIZE 77
-
-
-    /// Базовый класс номер ///
+    /// Базовый класс Номер
 
     class Suite{
     private:

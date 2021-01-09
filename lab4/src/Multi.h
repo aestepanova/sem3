@@ -10,6 +10,9 @@ using namespace std;
 namespace lab4 {
 #define M_COST 3000
 #define BEDS 4
+
+    /// Описатель номера типа "Многоместный", наследует состояние класса Suite
+
     class Multi : public Suite {
     private:
         int beds; // всего мест
@@ -19,8 +22,8 @@ namespace lab4 {
     public:
         Multi() : Suite("Multi", M_COST), beds(BEDS), current(0) {};
 
-        Multi(string type, int num, int busy, vector<Guest*>& gue, int beds, int current ) :
-                Suite(std::move(type), num, busy, M_COST, current), beds(beds), current(current) {
+        Multi(string type, int num, int busy, vector<Guest*>& gue, int cost, int beds, int current ) :
+                Suite(std::move(type), num, busy, cost, current), beds(beds), current(current) {
             guests.resize(gue.size());
             for (int i = 0; i < gue.size(); i++ ){
                 guests[i] = gue[i];
@@ -28,6 +31,8 @@ namespace lab4 {
         };
         void setBeds(int b){ this->beds = b;}
         void setCurrent(int cur){ this->current=cur;}
+        int getBeds(){return this->beds;}
+        int getCurrent() {return this->current;}
         void showInfo() override;
 
         void registerG() override;

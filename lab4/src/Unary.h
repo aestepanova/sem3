@@ -11,6 +11,7 @@ using namespace std;
 namespace lab4{
     #define U_COST 5000
 
+    /// Описатель номера типа "Одноместный", наследует состояние класса Suite
     class Unary : public Suite {
     protected:
         Guest guest;
@@ -18,7 +19,8 @@ namespace lab4{
         Unary() : Suite("Unary", U_COST), guest(){};
         explicit Unary(string t, int cost = U_COST) : Suite(std::move(t), cost), guest(){};
         Unary(string type, int num, int busy, int cost, Guest gue, int guests = 1) :
-                Suite(std::move(type), num, busy, U_COST, guests), guest(std::move(gue)){};
+                Suite(std::move(type), num, busy, cost, guests), guest(std::move(gue)){};
+
         void showInfo() override;
         void registerG() override;
         void unregisterG() override ;
