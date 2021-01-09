@@ -1,53 +1,33 @@
-#ifndef LAB4_TABLE_H
-#define LAB4_TABLE_H
+#ifndef LAB4_TABLE2_H
+#define LAB4_TABLE2_H
 
 #include "Suite.h"
 #include "Unary.h"
 #include "Luxe.h"
 #include "Multi.h"
-#include "other_vector.h"
+#include <vector>
 
 #define LINE "-------------------"
 #define UNARY 10
 #define LUXE 10
 #define MULTI 15
-// номера от 1 до 15 - одноместные, от 16 до 26 - люксы, 27-37 многоместные
 
 namespace lab4 {
 
     class Table {
     private:
-        other_vector<Suite *> el;
-
+        vector<Suite *> el;
 
     public:
-        Table(): el(){};
+        Table()= default;
         int h(int k, int i) { return (k % (UNARY + LUXE + MULTI) + i); };
-
         void add(Suite *suite){
-            int n=el.size(), ind=0;
-            Suite* tmp;
-            int num = suite->getNumber();
-            if (el.size()==0){
-                el.push_back(static_cast<Suite*>(suite));
-            }else{
-                ind = el.size()-1;
-                tmp = el[ind]; // last element at vector
-                for(int i = 0; i < el.size(); i++)
-                    if(num < el[i]->getNumber())
-                        n = i; // find position
-                for(int i = n; i < el.size(); i++)
-                    el[i] = el[i-1];
-                el.push_back(tmp);
-                el[n] = suite;
-            }
-            //el.push_back(static_cast<Suite*>(suite));
-
+            el.push_back(static_cast<Suite*>(suite));
         }
 
         Suite *find(int& num){
             if (!(el.empty())){
-                other_vector<Suite*>::iterator it;
+                std::vector<Suite*>::iterator it;
                 for(it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         return *it;
@@ -62,7 +42,7 @@ namespace lab4 {
 
         int find_num(int& num){
             if (!(el.empty())){
-                other_vector<Suite*>::iterator it;
+                std::vector<Suite*>::iterator it;
                 for(it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         return 1;
@@ -75,7 +55,7 @@ namespace lab4 {
         void freeSuits(Table& tab){
             int u = UNARY, l = LUXE, m = MULTI;
             if (!(el.empty())){
-                other_vector<Suite*>::iterator it;
+                std::vector<Suite*>::iterator it;
                 for(it = el.begin(); it < el.end(); it++) {
                     if ((*(*it)).getType() == "Unary"){
                         u--;
@@ -99,7 +79,7 @@ namespace lab4 {
 
         void del(int &num) {
             if (find(num)) {
-                other_vector<Suite *>::iterator it;
+                std::vector<Suite *>::iterator it;
                 for (it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         (*(*it)).unregisterG();
@@ -111,12 +91,12 @@ namespace lab4 {
         }
 
         void show(){
-            cout << endl << LINE << endl;
             if (!(el.empty())){
                 for (int i = 0; i < this->el.size(); i++) {
                     el[i]->showInfo();
-                    cout<< endl << LINE << endl;
                 }
+            }else{
+                cout << "Table is empty!\n";
             }
         };
     };
@@ -274,4 +254,4 @@ namespace lab4 {
         return rc;
     }
 }
-#endif //LAB4_TABLE_H
+#endif //LAB4_TABLE2_H

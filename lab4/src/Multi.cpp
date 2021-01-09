@@ -5,7 +5,8 @@ void lab4::Multi::showInfo() {
     cout << "Number: [" << this->getNumber() << "]\n";
     int t = this->isFree();
     cout << ((t==1) ? "This number is free\n" : "This number is busy\n");
-    cout << "Number of guests: " << this->getNumGuests() << endl;
+    cout << "Number of beds: " << this->beds << endl;
+    cout << "Current of guests: " << this->current << endl;
     this->showG();
 }
 
@@ -16,7 +17,8 @@ void lab4::Multi::unregisterG() {
     Guest* g = findG(gName);
     if ( g != nullptr) {
         cout << gName <<", your accommodation bill: " << (g->days)*(this->getCost()) << endl;
-        this->setNumGuests(this->getNumGuests()-1);
+        current--;
+        this->setNumGuests(current);
         this->unregG(gName);
         cout << "Thank you for choosing our hotel, come again!\n";
     } else {
@@ -29,8 +31,8 @@ void lab4::Multi::registerG() {
         auto* g = new Guest;
         g->reg();
         this->guests.push_back(g);
-        int numG = this->getNumGuests();
-        this->Suite::setNumGuests(numG+1);
+        current++;
+        this->Suite::setNumGuests(current);
         cout << "Your number is [" << this->getNumber() << "]. Welcome to Ancho's Hotel!\n" << endl;
     }
     else {
@@ -74,5 +76,8 @@ void lab4::Multi::unregG(const string& name) {
                 this->setCurrent(this->getNumGuests()-1);
             }
         }
+    }
+    if (this->guests.empty()){
+        this->setBusy(0);
     }
 }

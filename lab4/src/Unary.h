@@ -15,10 +15,10 @@ namespace lab4{
     protected:
         Guest guest;
     public:
-        Unary() : Suite("Unary"), guest(){};
-        explicit Unary(string t) : Suite(std::move(t)), guest(){};
-        Unary(string type, int num, int busy, int cost, Guest gue) :
-                Suite(std::move(type), num, busy, U_COST, 1), guest(std::move(gue)){};
+        Unary() : Suite("Unary", U_COST), guest(){};
+        explicit Unary(string t, int cost = U_COST) : Suite(std::move(t), cost), guest(){};
+        Unary(string type, int num, int busy, int cost, Guest gue, int guests = 1) :
+                Suite(std::move(type), num, busy, U_COST, guests), guest(std::move(gue)){};
         void showInfo() override;
         void registerG() override;
         void unregisterG() override ;

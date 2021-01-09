@@ -2,5 +2,13 @@ cmake_minimum_required(VERSION 3.17)
 project(lab4)
 
 set(CMAKE_CXX_STANDARD 17)
+set(SOURCE_FILES main.cpp)
 
-add_executable(lab4 main.cpp src src/Suite.cpp src/Suite.h src/Suite.cpp src/Suite.h src/Guest.h src/Unary.cpp src/Unary.h src/Luxe.cpp src/Luxe.h src/Multi.cpp src/Multi.h src/dialog.cpp src/dialog.h)
+add_executable(lab4_run ${SOURCE_FILES})
+
+include_directories(src)
+add_subdirectory(src)
+
+target_link_libraries(lab4_run src)
+
+add_subdirectory(google_tests)

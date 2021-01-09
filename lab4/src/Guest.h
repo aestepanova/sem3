@@ -3,10 +3,8 @@
 
 #include <iostream>
 #include <ctime>
-#include <utility>
 
 
-#define CUR_YEAR 2021
 #define LINE "-------------------"
 
 using namespace std;
@@ -28,24 +26,9 @@ inline int getInt(int &n) { //for natural int
 namespace lab4{
     struct Date{
         int day, month, year;
-        Date(): day(1), month(1), year(CUR_YEAR){};
+        Date(): day(1), month(1), year(1900){};
         Date(int t_day, int t_mon, int t_year): day(t_day), month(t_mon), year(t_year){};
 
-        void check_date(){
-            if ((day<1)||(day>31)||(month<1)||(month>12)){
-                day = 1;
-                month = 1;
-                cout << "Incorrect date!\n";
-            }
-        }
-
-        void set_date(){
-            cout << "day: \n";
-            cin >> day;
-            cout << "month: \n";
-            cin >> month;
-            check_date();
-        }
 
         void print() const{
           std::cout << "\tdate: " << day << "/" << month << "/" << year << endl << LINE << endl;
@@ -71,15 +54,12 @@ namespace lab4{
                 cin >> name;
                 cout << "How much days, " << "Mr/Mrs " << name <<", do you want to live in Ancho's Hotel?\n";
                 getInt(days);
-                //cout << "When do you want to check in?\n";
-                //regDate.set_date();
                 regDate.day = ltm->tm_mday;
                 regDate.month =1 + ltm->tm_mon;
                 regDate.year = 1900 + ltm->tm_year;
                 cout << "Check your info: \n-----------------\n";
                 this->print();
                 cout << "If everything is right - enter 1, else - any key\n";
-                //cin.ignore(32767, '\n');
                 getInt(f);
                 if (f!=1) f = 0;
             }while (f==0);

@@ -1,8 +1,6 @@
 #ifndef LAB4_LUXE_H
 #define LAB4_LUXE_H
 
-#include <utility>
-
 #include "Guest.h"
 #include "Unary.h"
 
@@ -14,10 +12,10 @@ namespace lab4 {
     private:
         int rooms;
     public:
-        Luxe() : Unary("Luxe"), rooms(2){};
+        Luxe() : Unary("Luxe", L_COST), rooms(2){};
 
         Luxe(string type, int num, int busy, Guest gue, int rooms, int guests) :
-                Unary(std::move(type), num, busy, L_COST, std::move(gue)), rooms(rooms) {};
+                Unary(std::move(type), num, busy, L_COST, std::move(gue), guests), rooms(rooms) {};
 
         [[nodiscard]] int getRooms() const {return rooms;}
 

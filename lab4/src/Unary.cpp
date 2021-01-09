@@ -11,6 +11,8 @@ void lab4::Unary::showInfo() {
 
 void lab4::Unary::registerG() {
     this->guest.reg();
+    this->setNumGuests(1);
+    this->setBusy(1);
     cout << "Your number is [" << this->getNumber() << "]. Welcome to Ancho's Hotel!\n" << endl;
 }
 

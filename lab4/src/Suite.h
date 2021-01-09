@@ -23,8 +23,8 @@ namespace lab4 {
         int numGuests; // количество гостей в номере
 
     protected:
-        Suite() : type("Unary"), number(0), busy(1), cost(100), numGuests(1) {};
-        explicit Suite(string type) : Suite() {Suite::type = std::move(type);};
+        Suite() : type("Unary"), number(0), busy(0), cost(100), numGuests(1) {};
+        explicit Suite(string type, int cost = 100) : Suite() {Suite::type = std::move(type); Suite::cost = cost;};
         Suite(string type, int num, int busy, int cost, int num_guests) :
                 type(std::move(type)), number(num), busy(busy), cost(cost), numGuests(num_guests) {};
 

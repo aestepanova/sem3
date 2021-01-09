@@ -17,7 +17,7 @@ namespace lab4 {
         vector<Guest*> guests;
 
     public:
-        Multi() : Suite("Multi"), beds(BEDS), current(0) {};
+        Multi() : Suite("Multi", M_COST), beds(BEDS), current(0) {};
 
         Multi(string type, int num, int busy, vector<Guest*>& gue, int beds, int current ) :
                 Suite(std::move(type), num, busy, M_COST, current), beds(beds), current(current) {
