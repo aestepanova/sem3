@@ -5,49 +5,40 @@
 #include "Unary.h"
 #include "Luxe.h"
 #include "Multi.h"
-#include "other_vector.h"
+#include "my_vec.h"
 
 #define LINE "-------------------"
-#define UNARY 10
-#define LUXE 10
-#define MULTI 15
+#define UNARY 1
+#define LUXE 1
+#define MULTI 1
 // номера от 1 до 15 - одноместные, от 16 до 26 - люксы, 27-37 многоместные
 
 namespace lab4 {
 
+    /// Содержит в себе информацию обо всех номерах гостиницы (использует свой контейнерный класс "my_vec")
     class Table {
     private:
-        other_vector<Suite *> el;
-
+        my_vec<Suite *> el; ///< Краткое описание
 
     public:
         Table(): el(){};
         int h(int k, int i) { return (k % (UNARY + LUXE + MULTI) + i); };
 
         void add(Suite *suite){
-            int n=el.size(), ind=0;
-            Suite* tmp;
-            int num = suite->getNumber();
-            if (el.size()==0){
-                el.push_back(static_cast<Suite*>(suite));
-            }else{
-                ind = el.size()-1;
-                tmp = el[ind]; // last element at vector
-                for(int i = 0; i < el.size(); i++)
-                    if(num < el[i]->getNumber())
-                        n = i; // find position
-                for(int i = n; i < el.size(); i++)
-                    el[i] = el[i-1];
-                el.push_back(tmp);
-                el[n] = suite;
-            }
-            //el.push_back(static_cast<Suite*>(suite));
+
+            el.push_back(suite);
 
         }
 
+        /*!
+        Поиск гостиничного номера по его номеру
+        \param num Конкретный номер гостиничного номера
+        \return Указатель на найденный гостиничный номер
+*/
+
         Suite *find(int& num){
             if (!(el.empty())){
-                other_vector<Suite*>::iterator it;
+                my_vec<Suite*>::iterator it;
                 for(it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         return *it;
@@ -60,9 +51,14 @@ namespace lab4 {
             return nullptr;
         };
 
+        /*!
+        Поиск гостиничного номера по его номеру
+        \param num Конкретный номер гостиничного номера
+        \return 1 - если номер есть в таблице, 0 - если отсутствует
+*/
         int find_num(int& num){
             if (!(el.empty())){
-                other_vector<Suite*>::iterator it;
+                my_vec<Suite*>::iterator it;
                 for(it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         return 1;
@@ -72,10 +68,15 @@ namespace lab4 {
             return 0;
         }
 
+        /*!
+        Выдаёт информацию о занятости гостиницы
+        \param tab Таблица, содержащая информацию обо всех номерах в гостинице
+
+*/
         void freeSuits(Table& tab){
             int u = UNARY, l = LUXE, m = MULTI;
             if (!(el.empty())){
-                other_vector<Suite*>::iterator it;
+                my_vec<Suite*>::iterator it;
                 for(it = el.begin(); it < el.end(); it++) {
                     if ((*(*it)).getType() == "Unary"){
                         u--;
@@ -97,9 +98,13 @@ namespace lab4 {
 
         }
 
+        /*!
+        Удаление гостиничного номера по его номеру
+        \param num Конкретный номер гостиничного номера
+*/
         void del(int &num) {
             if (find(num)) {
-                other_vector<Suite *>::iterator it;
+                my_vec<Suite *>::iterator it;
                 for (it = el.begin(); it < el.end(); it++) {
                     if (num == (*(*it)).getNumber()) {
                         (*(*it)).unregisterG();
@@ -110,6 +115,9 @@ namespace lab4 {
             }
         }
 
+        /*!
+        Показ полной таблицы
+      */
         void show(){
             cout << endl << LINE << endl;
             if (!(el.empty())){
@@ -121,6 +129,13 @@ namespace lab4 {
         };
     };
 
+    /*!
+        Получение натурального числа
+        \param n Число
+        \return -1, если обнаружена ошибка ввода или конец файла;
+        -2, если введенное число больше максимального Int;
+        0, если введено отрицательное число, 1, если всё в порядке
+*/
     inline int getInt(int &n) { //for natural int
         std::cin >> n;
         if (!std::cin.good()) {  // обнаружена ошибка ввода или конец файла
@@ -132,6 +147,12 @@ namespace lab4 {
         return 1;
     }
 
+    /*!
+        Регистрация гостя
+        \param tab Таблица, содержащая информацию обо всех номерах в гостинице
+        \return 1, если добавлен новый гостиничный номер в таблицу;
+        2, если изменено состояние существующего в таблице гостиничного номера
+*/
     int dialog_add(lab4::Table &Tab) {
         Suite *s = nullptr, *tmp;
         int t=0, f, flag=0;
@@ -220,6 +241,11 @@ namespace lab4 {
         }else return 2;
     }
 
+    /*!
+        Диалог освобождения номера гостем
+        \param tab Таблица, содержащая информацию обо всех номерах в гостинице
+        \return 1
+*/
     int dialog_del(lab4::Table &Tab) {
         int num;
         cout << "Enter your number of suite ---> " << endl;
@@ -232,6 +258,11 @@ namespace lab4 {
         return 1;
     }
 
+    /*!
+        Показывает инфомрацию о номере
+        \param tab Таблица, содержащая информацию обо всех номерах в гостинице
+        \return 1
+*/
     int dialog_find(lab4::Table &Tab) {
         int num;
         cout << "Enter your number of suite ---> " << endl;
@@ -245,17 +276,33 @@ namespace lab4 {
         return 1;
     }
 
+    /*!
+        Диалог показа таблицы
+        \param tab Таблица, содержащая информацию обо всех номерах в гостинице
+        \return 1
+*/
     int dialog_show(lab4::Table &Tab) {
         Tab.show();
         return 1;
     }
 
+    /*!
+        Диалог показа заполенности гостиницы
+        \param tab Таблица, содержащая информацию обо всех номерах в гостинице
+        \return 1
+*/
     int dialog_suits(lab4::Table &Tab){
         Tab.freeSuits(Tab);
         return 1;
     }
 
 
+    /*!
+        Организация диалога с пользователем
+        \param msgs Массив предлагаемых опций для пользователя
+        \param N Количество опций
+        \return Номер выбранной функции
+*/
     inline int dialog(const char *msgs[], int N) {
         std::string errmsg;
         int rc, n;

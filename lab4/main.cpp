@@ -1,4 +1,4 @@
-#include "src/Table2.h"
+#include "Table.h"
 
 using namespace lab4;
 

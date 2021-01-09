@@ -7,14 +7,14 @@ set(HEADER_FILES
         Multi.h
         Table.h
         Suite.h
-        Vector.h
-        Table2.h
+        my_vec.h
+        ../Table2.h
         )
 
 set(SOURCE_FILES
         Luxe.cpp
         Unary.cpp
         Multi.cpp
-        Suite.cpp other_vector.h)
+        Suite.cpp)
 
 add_library(src STATIC ${SOURCE_FILES} ${HEADER_FILES})

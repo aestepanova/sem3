@@ -13,7 +13,7 @@
 #define MULTI 15
 
 namespace lab4 {
-
+    /// Table2 cодержит в себе информацию обо всех номерах гостиницы (использует std::vector)
     class Table {
     private:
         vector<Suite *> el;
@@ -22,7 +22,7 @@ namespace lab4 {
         Table()= default;
         int h(int k, int i) { return (k % (UNARY + LUXE + MULTI) + i); };
         void add(Suite *suite){
-            el.push_back(static_cast<Suite*>(suite));
+            el.push_back(suite);
         }
 
         Suite *find(int& num){

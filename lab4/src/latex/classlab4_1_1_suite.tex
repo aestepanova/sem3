@@ -1,0 +1,86 @@
+\hypertarget{classlab4_1_1_suite}{}\doxysection{lab4\+::Suite Class Reference}
+\label{classlab4_1_1_suite}\index{lab4::Suite@{lab4::Suite}}
+
+
+Базовый класс Номер  
+
+
+
+
+{\ttfamily \#include $<$Suite.\+h$>$}
+
+Inheritance diagram for lab4\+::Suite\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classlab4_1_1_suite}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a1d03f03142035670435500455ba3750d}\label{classlab4_1_1_suite_a1d03f03142035670435500455ba3750d}} 
+string {\bfseries get\+Type} () const
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_aeb454d2d5ad4db88fd5e6212493a7a3b}\label{classlab4_1_1_suite_aeb454d2d5ad4db88fd5e6212493a7a3b}} 
+int {\bfseries get\+Number} () const
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a24943538852e13f114c427a92a3ae1aa}\label{classlab4_1_1_suite_a24943538852e13f114c427a92a3ae1aa}} 
+int {\bfseries is\+Free} () const
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_abfdc94032887030f768098d725b50acc}\label{classlab4_1_1_suite_abfdc94032887030f768098d725b50acc}} 
+int {\bfseries get\+Cost} () const
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a8b707ae7dc8f998f75b30e543660b049}\label{classlab4_1_1_suite_a8b707ae7dc8f998f75b30e543660b049}} 
+int {\bfseries get\+Num\+Guests} () const
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_af3c203fc15dbcba522f03a846e844393}\label{classlab4_1_1_suite_af3c203fc15dbcba522f03a846e844393}} 
+\mbox{\hyperlink{classlab4_1_1_suite}{Suite}} \& {\bfseries set\+Type} (string t)
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a95ccb7376877066bf2017af1aa1740f2}\label{classlab4_1_1_suite_a95ccb7376877066bf2017af1aa1740f2}} 
+\mbox{\hyperlink{classlab4_1_1_suite}{Suite}} \& {\bfseries set\+Number} (int t)
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a29a12f51003fee1c2e2ae25f4f47a110}\label{classlab4_1_1_suite_a29a12f51003fee1c2e2ae25f4f47a110}} 
+\mbox{\hyperlink{classlab4_1_1_suite}{Suite}} \& {\bfseries set\+Busy} (int t)
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_adb4b63efddbdccd32d63a5343f45cc01}\label{classlab4_1_1_suite_adb4b63efddbdccd32d63a5343f45cc01}} 
+\mbox{\hyperlink{classlab4_1_1_suite}{Suite}} \& {\bfseries set\+Cost} (int t)
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_aa7632bc8191ecdb4d54148a68c48213e}\label{classlab4_1_1_suite_aa7632bc8191ecdb4d54148a68c48213e}} 
+\mbox{\hyperlink{classlab4_1_1_suite}{Suite}} \& {\bfseries set\+Num\+Guests} (int t)
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_aa7183afe005dd03caa65171bc6850201}\label{classlab4_1_1_suite_aa7183afe005dd03caa65171bc6850201}} 
+virtual std\+::ostream \& {\bfseries print} (std\+::ostream \&s) const
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_af12b6b7eb023ad5e6329acaf23e98e01}\label{classlab4_1_1_suite_af12b6b7eb023ad5e6329acaf23e98e01}} 
+virtual void {\bfseries show\+Info} ()=0
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a514a9688330d22030dd2947f2401dcd9}\label{classlab4_1_1_suite_a514a9688330d22030dd2947f2401dcd9}} 
+virtual void {\bfseries registerG} ()=0
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a30be2fc3e6084f1c6afc75051c7427d6}\label{classlab4_1_1_suite_a30be2fc3e6084f1c6afc75051c7427d6}} 
+virtual void {\bfseries unregisterG} ()=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a6e0a2467c19d35330d5ea641befdbf65}\label{classlab4_1_1_suite_a6e0a2467c19d35330d5ea641befdbf65}} 
+{\bfseries Suite} (string type, int cost=100)
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a6a009620fd87597cdca21019d36b8165}\label{classlab4_1_1_suite_a6a009620fd87597cdca21019d36b8165}} 
+{\bfseries Suite} (string type, int num, int busy, int cost, int num\+\_\+guests)
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classlab4_1_1_suite_a0741ea00a84a1df8c810c36e1ccddad9}\label{classlab4_1_1_suite_a0741ea00a84a1df8c810c36e1ccddad9}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&s, \mbox{\hyperlink{classlab4_1_1_suite}{Suite}} $\ast$suite)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Базовый класс Номер 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Suite.\+h\item 
+Suite.\+cpp\end{DoxyCompactItemize}

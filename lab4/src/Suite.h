@@ -9,7 +9,6 @@
 using namespace std;
 namespace lab4 {
     /// Базовый класс Номер
-
     class Suite{
     private:
         string type; // тип номера

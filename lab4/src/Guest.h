@@ -24,6 +24,7 @@ inline int getInt(int &n) { //for natural int
 }
 
 namespace lab4{
+    /// Структура "Дата" для корректного вывода даты
     struct Date{
         int day, month, year;
         Date(): day(1), month(1), year(1900){};
@@ -36,6 +37,7 @@ namespace lab4{
 
     };
 
+    /// Структура "Гость"
     struct Guest{
         Date regDate;
         int days;
